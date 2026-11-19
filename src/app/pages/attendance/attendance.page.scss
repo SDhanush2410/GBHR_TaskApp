@@ -1,0 +1,520 @@
+
+.attendance-content {
+  --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+}
+
+.page-heading {
+  max-width: 1100px;
+  margin: auto;
+  padding: 25px 20px 10px;
+}
+
+.page-heading h1 {
+  color: var(--ion-text-color);
+  font-size: 27px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.page-heading p {
+  color: var(--ion-color-medium);
+  font-size: 14px;
+  margin: 0;
+}
+
+
+/* Employee Information */
+.employee-card,
+.action-card,
+.location-card,
+.history-card,
+.empty-card {
+  max-width: 1060px;
+  margin: 18px auto;
+  border-radius: 12px;
+  background: var(--ion-card-background);
+  box-shadow: 0 4px 15px rgba(20, 50, 80, 0.07);
+}
+
+.employee-card ion-card-content {
+  padding: 22px;
+}
+
+.employee-info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.employee-avatar {
+  width: 75px;
+  height: 75px;
+  min-width: 75px;
+  border-radius: 50%;
+  background: #e9f3ff;
+  color: #1976b9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.employee-avatar ion-icon {
+  font-size: 42px;
+}
+
+.employee-details h2 {
+  color: var(--ion-text-color);
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.employee-details p {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+  margin: 5px 0 10px;
+}
+
+.employee-details strong {
+  color: var(--ion-text-color);
+}
+
+
+/* Today's Attendance */
+.action-card ion-card-header {
+  padding: 22px 22px 12px;
+}
+
+.action-card ion-card-title {
+  color: var(--ion-text-color);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.action-card ion-card-subtitle {
+  color: var(--ion-color-medium);
+  margin-top: 7px;
+}
+
+.action-card ion-card-content {
+  padding: 18px 22px 22px;
+}
+
+.attendance-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.action-item {
+  border: 1px solid var(--ion-color-step-150, #e5eaf0);
+  border-radius: 12px;
+  padding: 22px;
+  text-align: center;
+}
+
+.action-icon {
+  width: 55px;
+  height: 55px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 29px;
+}
+
+.check-in-icon {
+  background: rgba(45, 190, 110, 0.12);
+  color: #20a35a;
+}
+
+.check-out-icon {
+  background: rgba(235, 68, 90, 0.12);
+  color: #eb445a;
+}
+
+.action-item h3 {
+  color: var(--ion-text-color);
+  font-size: 17px;
+  font-weight: 700;
+  margin: 8px 0;
+}
+
+.action-item p {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+  margin: 0 0 17px;
+}
+
+.action-item ion-button {
+  --border-radius: 8px;
+  height: 43px;
+  font-weight: 600;
+}
+
+.attendance-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  color: var(--ion-color-medium);
+  font-size: 12px;
+}
+
+.attendance-note ion-icon {
+  font-size: 19px;
+  color: var(--ion-color-primary);
+}
+
+
+/* Location */
+.location-card ion-card-content {
+  padding: 20px;
+}
+
+.location-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.location-heading ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 23px;
+}
+
+.location-heading h3 {
+  color: var(--ion-text-color);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.location-card p {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 12px 0 0;
+}
+
+.latest-location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #20a35a;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+
+/* Attendance History */
+.history-heading {
+  max-width: 1060px;
+  margin: 35px auto 15px;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.history-heading h2 {
+  color: var(--ion-text-color);
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.history-heading p {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+  margin: 0;
+}
+
+.history-heading ion-badge {
+  padding: 7px 10px;
+  border-radius: 6px;
+}
+
+.history-card {
+  padding: 0;
+}
+
+.history-card ion-card-content {
+  padding: 20px;
+}
+
+.history-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--ion-color-step-150, #e5eaf0);
+}
+
+.history-type {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-icon {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.history-type h3 {
+  color: var(--ion-text-color);
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0 0 5px;
+}
+
+.history-type p {
+  color: var(--ion-color-medium);
+  font-size: 12px;
+  margin: 0;
+}
+
+.history-top ion-badge {
+  font-size: 10px;
+  padding: 6px 9px;
+}
+
+.history-details {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 20px 0;
+}
+
+.history-detail-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.history-detail-item > ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 20px;
+  margin-top: 2px;
+}
+
+.history-detail-item label {
+  display: block;
+  color: var(--ion-color-medium);
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.history-detail-item p {
+  color: var(--ion-text-color);
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.history-footer {
+  border-top: 1px solid var(--ion-color-step-150, #e5eaf0);
+  padding-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-footer span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ion-color-medium);
+  font-size: 12px;
+}
+
+.history-footer span ion-icon {
+  font-size: 18px;
+}
+
+.history-footer ion-button {
+  --border-radius: 7px;
+  font-size: 12px;
+}
+
+
+/* Empty History */
+.empty-card ion-card-content {
+  text-align: center;
+  padding: 35px 20px;
+}
+
+.empty-card ion-card-content > ion-icon {
+  font-size: 45px;
+  color: var(--ion-color-medium);
+}
+
+.empty-card h3 {
+  color: var(--ion-text-color);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.empty-card p {
+  color: var(--ion-color-medium);
+  font-size: 13px;
+}
+
+
+/* Image Preview */
+.image-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.image-preview-container {
+  width: 100%;
+  max-width: 500px;
+  max-height: 90%;
+  overflow-y: auto;
+  background: var(--ion-card-background);
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.image-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.image-preview-header h3 {
+  color: var(--ion-text-color);
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.image-preview-container img {
+  display: block;
+  width: 100%;
+  max-height: 65vh;
+  object-fit: contain;
+  border-radius: 8px;
+  margin: 10px 0 18px;
+}
+
+
+/* Mobile */
+@media (max-width: 768px) {
+  .page-heading {
+    padding: 22px 16px 10px;
+  }
+
+  .employee-card,
+  .action-card,
+  .location-card,
+  .history-card,
+  .empty-card {
+    margin: 14px 12px;
+  }
+
+  .history-heading {
+    margin: 28px 16px 14px;
+  }
+
+  .history-details {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-heading h1 {
+    font-size: 24px;
+  }
+
+  .employee-card ion-card-content {
+    padding: 17px;
+  }
+
+  .employee-avatar {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+  }
+
+  .employee-avatar ion-icon {
+    font-size: 34px;
+  }
+
+  .employee-details h2 {
+    font-size: 17px;
+  }
+
+  .attendance-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .action-item {
+    padding: 18px;
+  }
+
+  .action-card ion-card-content {
+    padding: 15px;
+  }
+
+  .history-heading h2 {
+    font-size: 18px;
+  }
+
+  .history-card ion-card-content {
+    padding: 15px;
+  }
+
+  .history-top {
+    align-items: flex-start;
+  }
+
+  .history-top ion-badge {
+    font-size: 9px;
+  }
+
+  .history-footer span {
+    font-size: 11px;
+  }
+}
+
+
+/* Dark Mode */
+:host-context(body.dark) {
+  .employee-avatar {
+    background: rgba(56, 128, 255, 0.16);
+    color: #75b7ff;
+  }
+
+  .action-item {
+    border-color: var(--ion-color-step-200);
+  }
+
+  .check-in-icon {
+    background: rgba(45, 190, 110, 0.16);
+  }
+
+  .check-out-icon {
+    background: rgba(235, 68, 90, 0.16);
+  }
+}

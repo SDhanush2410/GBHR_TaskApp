@@ -1,0 +1,318 @@
+
+.home-content {
+  --background: #f5f7fb;
+  color: #263445;
+}
+
+/* Welcome Banner */
+.welcome-section {
+  background: linear-gradient(135deg, #123d70, #1976b9);
+  padding: 65px 25px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.welcome-content {
+  max-width: 850px;
+  margin: auto;
+}
+
+.welcome-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c8e6ff;
+  margin-bottom: 15px;
+}
+
+.welcome-section h1 {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.welcome-section h2 {
+  font-size: 22px;
+  font-weight: 500;
+  margin: 15px 0;
+}
+
+.welcome-description {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 650px;
+  margin: 15px auto 25px;
+  color: #e5f2ff;
+}
+
+.welcome-button {
+  --background: #ffffff;
+  --color: #14558a;
+  --border-radius: 8px;
+  font-weight: 600;
+  height: 45px;
+}
+
+
+/* Common Section Heading */
+.section-heading {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.section-label {
+  color: #1976b9;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.section-heading h2 {
+  font-size: 27px;
+  font-weight: 700;
+  color: #183b60;
+  margin: 8px 0;
+}
+
+.section-subtitle {
+  color: #697789;
+  font-size: 15px;
+}
+
+
+/* About Section */
+.about-section {
+  padding: 55px 25px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.about-description {
+  color: #596779;
+  font-size: 16px;
+  line-height: 1.9;
+  text-align: center;
+}
+
+
+/* HRMS Solutions */
+.solutions-section {
+  background: #ffffff;
+  padding: 55px 25px;
+}
+
+.solutions-grid {
+  max-width: 1100px;
+  margin: 30px auto 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.solution-card {
+  margin: 0;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e5eaf0;
+  box-shadow: 0 4px 15px rgba(20, 50, 80, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.solution-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(20, 50, 80, 0.12);
+}
+
+.solution-card ion-card-content {
+  padding: 25px 20px;
+}
+
+.solution-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #e9f3ff;
+  color: #1976b9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.solution-icon ion-icon {
+  font-size: 27px;
+}
+
+.solution-card h3 {
+  color: #183b60;
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 12px;
+}
+
+.solution-card p {
+  color: #687789;
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* Employee Portal */
+.portal-section {
+  padding: 55px 25px;
+  background: #f5f7fb;
+}
+
+.portal-card {
+  max-width: 850px;
+  margin: auto;
+  padding: 40px 25px;
+  background: #ffffff;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(20, 50, 80, 0.08);
+}
+
+.portal-icon {
+  color: #1976b9;
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.portal-card h2 {
+  color: #183b60;
+  font-size: 25px;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.portal-card p {
+  color: #687789;
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 12px auto 25px;
+}
+
+.portal-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.portal-buttons ion-button {
+  --background: #1976b9;
+  --border-radius: 8px;
+  height: 44px;
+  font-weight: 600;
+}
+
+.portal-buttons ion-button[fill="outline"] {
+  --background: transparent;
+  --color: #1976b9;
+  --border-color: #1976b9;
+}
+
+
+/* Footer */
+.home-footer {
+  background: #123252;
+  color: #ffffff;
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.home-footer h3 {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.home-footer p {
+  font-size: 14px;
+  color: #d0dfed;
+  margin: 8px 0;
+}
+
+.footer-divider {
+  width: 80px;
+  height: 2px;
+  background: #65b6ed;
+  margin: 20px auto;
+}
+
+.home-footer .copyright {
+  font-size: 12px;
+  color: #b8cadd;
+}
+
+
+/* Tablet */
+@media (max-width: 768px) {
+  .welcome-section {
+    padding: 50px 20px;
+  }
+
+  .welcome-section h1 {
+    font-size: 28px;
+  }
+
+  .solutions-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-section,
+  .solutions-section,
+  .portal-section {
+    padding: 40px 18px;
+  }
+}
+
+
+/* Mobile */
+@media (max-width: 480px) {
+  .welcome-section {
+    padding: 42px 18px;
+  }
+
+  .welcome-section h1 {
+    font-size: 25px;
+  }
+
+  .welcome-section h2 {
+    font-size: 19px;
+  }
+
+  .welcome-description {
+    font-size: 14px;
+  }
+
+  .section-heading h2 {
+    font-size: 23px;
+  }
+
+  .solutions-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .solution-card ion-card-content {
+    padding: 20px;
+  }
+
+  .portal-card {
+    padding: 30px 18px;
+  }
+
+  .portal-buttons {
+    flex-direction: column;
+  }
+
+  .portal-buttons ion-button {
+    width: 100%;
+    margin: 0;
+  }
+}

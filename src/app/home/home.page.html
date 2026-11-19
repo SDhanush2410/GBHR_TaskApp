@@ -1,0 +1,197 @@
+
+<app-header></app-header>
+
+<ion-content class="home-content">
+
+  <!-- Welcome Banner -->
+  <section class="welcome-section">
+    <div class="welcome-content">
+
+      <p class="welcome-label">EMPLOYEE SELF-SERVICE PORTAL</p>
+
+      <h1>Welcome to GB HERMES!</h1>
+
+      <h2>Hello, {{ employeeName }}!</h2>
+
+      <p class="welcome-description">
+        Your workplace, your information, all in one place.
+        Manage your employee activities with ease through the
+        GB HERMES Employee Portal.
+      </p>
+
+      <ion-button class="welcome-button" (click)="goToProfile()">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        View My Profile
+      </ion-button>
+
+    </div>
+  </section>
+
+
+  <!-- About GB HERMES -->
+  <section class="about-section">
+
+    <div class="section-heading">
+      <p class="section-label">ABOUT US</p>
+      <h2>About GB HERMES</h2>
+    </div>
+
+    <p class="about-description">
+      GB HERMES provides an integrated Human Resource Management
+      Solution designed to simplify and manage the complete
+      employee lifecycle. From employee onboarding to attendance,
+      payroll, performance and employee management, our HRMS
+      solutions help organizations manage their workforce
+      efficiently.
+    </p>
+
+  </section>
+
+
+  <!-- HRMS Solutions -->
+  <section class="solutions-section">
+
+    <div class="section-heading">
+      <p class="section-label">WHAT WE OFFER</p>
+      <h2>Our HRMS Solutions</h2>
+      <p class="section-subtitle">
+        Explore the different solutions available through GB HERMES.
+      </p>
+    </div>
+
+    <div class="solutions-grid">
+
+      <!-- Employee Management -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="people-outline"></ion-icon>
+          </div>
+          <h3>Employee Management</h3>
+          <p>
+            Manage employee information, personal details
+            and employment records efficiently.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Attendance & Leave -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="calendar-outline"></ion-icon>
+          </div>
+          <h3>Attendance & Leave</h3>
+          <p>
+            Track employee attendance, check-in, check-out
+            and leave activities.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Payroll Management -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="cash-outline"></ion-icon>
+          </div>
+          <h3>Payroll Management</h3>
+          <p>
+            Simplify salary processing and manage
+            employee payroll information.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Performance Management -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="trending-up-outline"></ion-icon>
+          </div>
+          <h3>Performance Management</h3>
+          <p>
+            Monitor employee performance and support
+            continuous professional development.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Recruitment & Onboarding -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="person-add-outline"></ion-icon>
+          </div>
+          <h3>Recruitment & Onboarding</h3>
+          <p>
+            Organize recruitment activities and simplify
+            the employee onboarding process.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Training Management -->
+      <ion-card class="solution-card">
+        <ion-card-content>
+          <div class="solution-icon">
+            <ion-icon name="school-outline"></ion-icon>
+          </div>
+          <h3>Training Management</h3>
+          <p>
+            Support employee learning, training programs
+            and skill development.
+          </p>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+  </section>
+
+
+  <!-- Employee Portal -->
+  <section class="portal-section">
+
+    <div class="portal-card">
+
+      <div class="portal-icon">
+        <ion-icon name="desktop-outline"></ion-icon>
+      </div>
+
+      <h2>Your Employee Portal</h2>
+
+      <p>
+        Access your employee information and attendance
+        features from one convenient application.
+      </p>
+
+      <div class="portal-buttons">
+
+        <ion-button (click)="goToProfile()">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          My Profile
+        </ion-button>
+
+        <ion-button fill="outline" (click)="goToAttendance()">
+          <ion-icon name="calendar-outline" slot="start"></ion-icon>
+          Attendance
+        </ion-button>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="home-footer">
+
+    <h3>GB HERMES</h3>
+
+    <p>Entry to Exit HR Management Solution</p>
+
+  </footer>
+
+</ion-content>

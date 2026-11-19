@@ -1,0 +1,152 @@
+
+.main-header {
+  ion-toolbar {
+    --background: #ffffff;
+    --color: #1d2b45;
+    --min-height: 65px;
+    --border-color: #e8edf4;
+  }
+}
+
+.navbar-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 18px;
+  position: relative;
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 19px;
+  font-weight: 750;
+  color: #2456b5;
+
+  ion-icon {
+    font-size: 25px;
+  }
+}
+
+.desktop-navigation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  ion-button {
+    --color: #59677e;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: none;
+  }
+
+  ion-button.active {
+    --color: #2864d9;
+  }
+}
+
+.logout-section ion-button {
+  --border-radius: 9px;
+  text-transform: none;
+  font-weight: 600;
+}
+
+.mobile-menu {
+  display: none;
+  position: relative;
+
+  > ion-button {
+    --color: #263650;
+    font-size: 25px;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 190px;
+  background: #ffffff;
+  border: 1px solid #e5eaf2;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.13);
+  z-index: 1000;
+  padding: 7px;
+
+  button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #34415a;
+    font-size: 14px;
+    text-align: left;
+
+    ion-icon {
+      font-size: 19px;
+    }
+
+    &.active {
+      background: #edf3ff;
+      color: #2864d9;
+    }
+  }
+
+  .mobile-logout {
+    color: #dc3545;
+    border-top: 1px solid #edf0f5;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 12px;
+  }
+
+  .brand-section {
+    font-size: 17px;
+  }
+
+  .desktop-navigation,
+  .logout-section {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+
+.dropdown-menu {
+  background: var(--ion-background-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 56px;
+  right: 10px;
+  width: 210px;
+  z-index: 1000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dropdown-menu ion-list {
+  padding: 5px 0;
+  background: var(--ion-background-color);
+}
+
+.dropdown-menu ion-item {
+  --background: var(--ion-background-color);
+  --color: var(--ion-text-color);
+  cursor: pointer;
+}
+
+.logout-item {
+  --color: #eb445a;
+}

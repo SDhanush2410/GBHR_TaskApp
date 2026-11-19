@@ -1,0 +1,368 @@
+
+<app-header></app-header>
+
+<ion-content class="attendance-content">
+
+  <!-- Page Heading -->
+  <div class="page-heading">
+    <h1>Attendance Management</h1>
+    <p>Manage your daily check-in and check-out activities.</p>
+  </div>
+
+  <!-- Employee Information -->
+  <ion-card class="employee-card">
+    <ion-card-content>
+
+      <div class="employee-info">
+
+        <div class="employee-avatar">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <div class="employee-details">
+
+          <h2>
+            {{ user.FirstName || '' }}
+            {{ user.LastName || '' }}
+          </h2>
+
+          <p>
+            Employee ID:
+            <strong>{{ user.EmployeeID || 'Not provided' }}</strong>
+          </p>
+
+          <ion-badge
+            [color]="attendanceStatus === 'Checked In' ? 'success' :
+                     attendanceStatus === 'Checked Out' ? 'warning' : 'medium'">
+            {{ attendanceStatus }}
+          </ion-badge>
+
+        </div>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Check In / Check Out -->
+  <ion-card class="action-card">
+
+    <ion-card-header>
+      <ion-card-title>Today's Attendance</ion-card-title>
+
+      <ion-card-subtitle>
+        Record your attendance with a photo and GPS location.
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <div class="attendance-actions">
+
+        <!-- CHECK IN -->
+        <div class="action-item">
+
+          <div class="action-icon check-in-icon">
+            <ion-icon name="log-in-outline"></ion-icon>
+          </div>
+
+          <h3>Check In</h3>
+
+          <p>Record your starting time.</p>
+
+          <ion-button
+            expand="block"
+            color="success"
+            [disabled]="!canCheckIn"
+            (click)="checkIn()">
+
+            <ion-spinner
+              *ngIf="isCapturing"
+              name="crescent">
+            </ion-spinner>
+
+            <ion-icon
+              *ngIf="!isCapturing"
+              name="log-in-outline"
+              slot="start">
+            </ion-icon>
+
+            Check In
+
+          </ion-button>
+
+        </div>
+
+        <!-- CHECK OUT -->
+        <div class="action-item">
+
+          <div class="action-icon check-out-icon">
+            <ion-icon name="log-out-outline"></ion-icon>
+          </div>
+
+          <h3>Check Out</h3>
+
+          <p>Record your finishing time.</p>
+
+          <ion-button
+            expand="block"
+            color="danger"
+            [disabled]="!canCheckOut"
+            (click)="checkOut()">
+
+            <ion-icon
+              name="log-out-outline"
+              slot="start">
+            </ion-icon>
+
+            Check Out
+
+          </ion-button>
+
+        </div>
+
+      </div>
+
+      <!-- Attendance Status Message -->
+      <div class="attendance-note">
+
+        <ion-icon name="information-circle-outline"></ion-icon>
+
+        <span *ngIf="attendanceStatus === 'Not Checked In'">
+          You can start your attendance by checking in.
+        </span>
+
+        <span *ngIf="attendanceStatus === 'Checked In'">
+          You are checked in. You can now check out.
+        </span>
+
+        <span *ngIf="attendanceStatus === 'Checked Out'">
+          You are checked out. You can check in again.
+        </span>
+
+        <span *ngIf="isCapturing">
+          Attendance is being captured. Please wait.
+        </span>
+
+      </div>
+
+      <div class="attendance-note">
+        <ion-icon name="camera-outline"></ion-icon>
+
+        <span>
+          Camera and location access are required for attendance.
+        </span>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Current Location -->
+  <ion-card class="location-card">
+
+    <ion-card-content>
+
+      <div class="location-heading">
+        <ion-icon name="location-outline"></ion-icon>
+        <h3>Location Information</h3>
+      </div>
+
+      <p>{{ currentAddress }}</p>
+
+      <div
+        *ngIf="todayRecords.length > 0"
+        class="latest-location">
+
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+
+        <span>
+          Attendance location recorded successfully.
+        </span>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Attendance History Heading -->
+  <div class="history-heading">
+
+    <div>
+      <h2>Attendance History</h2>
+      <p>Your recorded check-in and check-out details.</p>
+    </div>
+
+    <ion-badge color="primary">
+      {{ attendanceRecords.length }} Records
+    </ion-badge>
+
+  </div>
+
+  <!-- No Records -->
+  <ion-card
+    *ngIf="attendanceRecords.length === 0"
+    class="empty-card">
+
+    <ion-card-content>
+
+      <ion-icon name="calendar-outline"></ion-icon>
+
+      <h3>No Attendance Records</h3>
+
+      <p>
+        Your attendance history will appear here after check-in.
+      </p>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Attendance Records -->
+  <ion-card
+    *ngFor="let record of attendanceRecords"
+    class="history-card">
+
+    <ion-card-content>
+
+      <div class="history-top">
+
+        <div class="history-type">
+
+          <div
+            class="history-icon"
+            [class.check-in-icon]="record.type === 'Check-in'"
+            [class.check-out-icon]="record.type === 'Check-out'">
+
+            <ion-icon
+              [name]="record.type === 'Check-in'
+                ? 'log-in-outline'
+                : 'log-out-outline'">
+            </ion-icon>
+
+          </div>
+
+          <div>
+            <h3>{{ record.type }}</h3>
+            <p>{{ formatDate(record.dateTime) }}</p>
+          </div>
+
+        </div>
+
+        <ion-badge
+          [color]="record.type === 'Check-in' ? 'success' : 'danger'">
+
+          {{ record.type }}
+
+        </ion-badge>
+
+      </div>
+
+      <!-- Attendance Details -->
+      <div class="history-details">
+
+        <div class="history-detail-item">
+
+          <ion-icon name="time-outline"></ion-icon>
+
+          <div>
+            <label>Time</label>
+            <p>{{ formatTime(record.dateTime) }}</p>
+          </div>
+
+        </div>
+
+        <div class="history-detail-item">
+
+          <ion-icon name="location-outline"></ion-icon>
+
+          <div>
+            <label>Location</label>
+            <p>{{ record.address }}</p>
+          </div>
+
+        </div>
+
+        <div class="history-detail-item">
+
+          <ion-icon name="navigate-outline"></ion-icon>
+
+          <div>
+            <label>GPS Coordinates</label>
+
+            <p>
+              {{ record.latitude }}, {{ record.longitude }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Attendance Photo -->
+      <div class="history-footer">
+
+        <span>
+          <ion-icon name="camera-outline"></ion-icon>
+          Attendance Photo
+        </span>
+
+        <ion-button
+          fill="outline"
+          size="small"
+          (click)="viewImage(record.image)">
+
+          <ion-icon
+            name="eye-outline"
+            slot="start">
+          </ion-icon>
+
+          View
+
+        </ion-button>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Image Preview -->
+  <div
+    class="image-preview-overlay"
+    *ngIf="selectedImage"
+    (click)="closeImage()">
+
+    <div
+      class="image-preview-container"
+      (click)="$event.stopPropagation()">
+
+      <div class="image-preview-header">
+
+        <h3>Attendance Photo</h3>
+
+        <ion-button
+          fill="clear"
+          color="medium"
+          (click)="closeImage()">
+
+          <ion-icon name="close-outline"></ion-icon>
+
+        </ion-button>
+
+      </div>
+
+      <img
+        [src]="selectedImage"
+        alt="Attendance photo">
+
+      <ion-button
+        expand="block"
+        (click)="closeImage()">
+
+        Close
+
+      </ion-button>
+
+    </div>
+
+  </div>
+
+</ion-content>
