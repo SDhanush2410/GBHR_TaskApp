@@ -35,3 +35,39 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Note: These styles should be located in your global stylesheet */
+ion-action-sheet.my-custom-class .action-sheet-group {
+  background: orangered;
+}
+
+ion-action-sheet.my-custom-class .action-sheet-title {
+  color: #770804;
+}
+
+ion-action-sheet.my-custom-class .action-sheet-cancel::after {
+  background: whitesmoke;
+}
+
+ion-action-sheet.my-custom-class .action-sheet-button,
+ion-action-sheet.my-custom-class .action-sheet-button.ion-focused {
+  color: #000000;
+}
+
+@media (any-hover: hover) {
+  ion-action-sheet.my-custom-class .action-sheet-button:hover {
+    color: #000000;
+  }
+}
+
+ion-action-sheet.my-custom-class ion-backdrop {
+  opacity: 0.6;
+}
+/* Font Awesome */
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Bootstrap Icons */
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+/* Remix Icons */
+@import "remixicon/fonts/remixicon.css";

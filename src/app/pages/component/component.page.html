@@ -1,0 +1,1431 @@
+<!-- Existing Navbar -->
+<app-header></app-header>
+
+  <!-- <h2>Ionic Components Practice</h2>
+  <p>Welcome to Ionic Components Practice!</p> -->
+<!-- One scrollable page wrapper keeps all 35 examples in this single component. -->
+<div class="component-page-content">
+  <h2>Ionic Components Practice</h2>
+  <p>1. Accordion Group</p>
+<ion-accordion-group>
+  <ion-accordion value="first" toggleIcon="caret-down-circle" toggleIconSlot="start">
+    <ion-item slot="header" color="light">
+      <ion-label>First Accordion</ion-label>
+    </ion-item>
+    <div class="ion-padding" slot="content">First Content</div>
+  </ion-accordion>
+  <ion-accordion value="second" toggleIcon="caret-down-circle" toggleIconSlot="start">
+    <ion-item slot="header" color="primary">
+      <ion-label>Second Accordion</ion-label>
+    </ion-item>
+    <div class="ion-padding" slot="content">Second Content</div>
+  </ion-accordion>
+  <ion-accordion value="third" toggleIcon="caret-down-circle" toggleIconSlot="start">
+    <ion-item slot="header" color="dark">
+      <ion-label>Third Accordion</ion-label>
+    </ion-item>
+    <div class="ion-padding" slot="content">Third Content</div>
+  </ion-accordion>
+  <ion-accordion value="fourth" toggleIcon="caret-down-circle" toggleIconSlot="start">
+    <ion-item slot="header" color="secondary">
+      <ion-label>Fourth Accordion</ion-label>
+    </ion-item>
+    <div class="ion-padding" slot="content">Fourth Content</div>
+  </ion-accordion>
+</ion-accordion-group>
+<br>
+<p>2. Action Sheet Buttons</p>
+<ion-button id="open-action-sheet">Open</ion-button>
+<ion-action-sheet 
+  trigger="open-action-sheet"
+  class="my-custom-class"
+  header="Example header"
+  subHeader="Example subheader"
+  [buttons]="actionSheetButtons"
+></ion-action-sheet>
+<br>
+<p>3. Alert </p>
+<ion-button id="present-alert">Click Me</ion-button>
+<ion-alert
+  trigger="present-alert"
+  header="Please enter your info"
+  [buttons]="alertButtons"
+  [inputs]="alertInputs"
+></ion-alert>
+<br>
+<ion-button id="present-alert1">Click Me</ion-button>
+<ion-alert
+  trigger="present-alert1"
+  header="Select your favorite color"
+  [buttons]="alertButtons1"
+  [inputs]="alertInputs1"
+></ion-alert>
+<br>
+<p>4. Ion-Badge</p>
+<ion-list>
+  <ion-item>
+    <ion-label>Followers</ion-label>
+    <ion-badge color="primary">22k</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Likes</ion-label>
+    <ion-badge color="secondary">118k</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Shares</ion-label>
+    <ion-badge color="tertiary">34k</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Completed</ion-label>
+    <ion-badge color="success">80</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Warnings</ion-label>
+    <ion-badge color="warning">70</ion-badge>
+  </ion-item>
+  <ion-item>
+    <ion-label>Notifications</ion-label>
+    <ion-badge color="danger">1000</ion-badge>
+  </ion-item>
+</ion-list>
+<br>
+<p>5. Breadcrumbs</p>
+<ion-breadcrumbs [maxItems]="maxBreadcrumbs" (ionCollapsedClick)="expandBreadcrumbs()">
+  <ion-breadcrumb href="#home">
+    <ion-icon slot="start" name="home"></ion-icon>
+    Home</ion-breadcrumb>
+  <ion-breadcrumb href="#profile">
+    <ion-icon slot="start" name="person-circle"></ion-icon>
+    Profile</ion-breadcrumb>
+  <ion-breadcrumb href="#photography">
+    <ion-icon slot="start" name="calendar-outline"></ion-icon>
+    Attendance</ion-breadcrumb>
+  <ion-breadcrumb href="#cameras">
+    <ion-icon slot="start" name="apps-outline"></ion-icon>
+    Components</ion-breadcrumb>
+  <ion-breadcrumb href="#film">
+    <ion-icon slot="start" name="settings"></ion-icon>
+    Setting</ion-breadcrumb>
+  <ion-breadcrumb href="#35mm">
+    <ion-icon slot="start" name="log-out"></ion-icon>
+    Logout</ion-breadcrumb>
+</ion-breadcrumbs>
+
+<br>
+<p>6. Buttons</p>
+<ion-button>Default</ion-button>
+<ion-button fill="outline" shape="round">Round</ion-button>
+<ion-button fill="outline">
+  <ion-icon slot="icon-only" name="heart"></ion-icon>
+</ion-button>
+<ion-button fill="solid" shape="round">
+  <ion-icon slot="icon-only" name="star"></ion-icon>
+</ion-button>
+<br>
+<br>
+<p>7. Riffle Effect</p>
+<div class="wrapper">
+  <b>Click on a shape to see the ripple</b>
+
+  <div class="ion-activatable ripple-parent rounded-rectangle">
+    Bounded
+    <ion-ripple-effect></ion-ripple-effect>
+  </div>
+
+  <div class="ion-activatable ripple-parent circle">
+    Unbounded
+    <ion-ripple-effect type="unbounded"></ion-ripple-effect>
+  </div>
+</div>
+<br>
+<p>8. Card</p>
+
+<ion-card class="kohli-card">
+
+  <img
+    alt="Virat Kohli holding IPL 2025 trophy in RCB jersey"
+    src="https://www.wallsnapy.com/img_gallery/2025-ipl-champions-rcb-virat-kohli-poses-with-trophy-637.jpg"
+  />
+
+  <ion-card-header>
+    <ion-card-title>
+      Virat Kohli – King of RCB
+    </ion-card-title>
+
+    <ion-card-subtitle>
+      Royal Challengers Bengaluru
+    </ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>
+      Virat Kohli is one of the greatest cricketers in the
+      history of the Indian Premier League. He has been a
+      loyal member of Royal Challengers Bengaluru since 2008.
+    </p>
+
+    <p>
+      In 2025, Kohli finally achieved his dream of winning
+      the IPL trophy with RCB after 18 years of dedication
+      and commitment to the franchise.
+    </p>
+
+    <p>
+      <strong>Achievement:</strong> IPL Champion 2025 🏆
+    </p>
+  </ion-card-content>
+
+  <ion-button expand="block" color="danger">
+    <ion-icon name="trophy-outline" slot="start"></ion-icon>
+    RCB Champions 2025 🏆
+  </ion-button>
+  <ion-button expand="block" color="danger">
+    <ion-icon name="trophy-outline" slot="start"></ion-icon>
+    RCB Champions 2026 🏆🏆
+  </ion-button>
+</ion-card>
+<br>
+<br>
+<p>9. CheckBox</p>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+
+  <ion-item>
+    <ion-checkbox formControlName="agree">
+      I agree to the terms and conditions
+    </ion-checkbox>
+  </ion-item>
+
+  <ion-button type="submit" expand="block">
+    Submit
+  </ion-button>
+
+  <ion-text color="danger"
+    *ngIf="myForm.get('agree')?.touched && myForm.get('agree')?.invalid">
+    Please accept the terms and conditions.
+  </ion-text>
+
+</form>
+<br>
+<br>
+<p>10. Ion Chip</p>
+<ion-chip color="primary">
+  <ion-avatar>
+    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  </ion-avatar>
+  <ion-label>Avatar Chip</ion-label>
+  <ion-icon name="close-circle"></ion-icon>
+</ion-chip>
+
+<ion-chip color="success">
+  <ion-icon  name="pin" color="primary"></ion-icon>
+  <ion-label>Icon Chip</ion-label>
+  <ion-icon name="close"></ion-icon>
+</ion-chip>
+<br>
+<br>
+<p>11. Ion App </p>
+<ion-button id="buttonToFocus" fill="outline">Button</ion-button>
+
+<ion-radio-group value="a">
+  <ion-radio id="radioToFocus" value="a">Radio</ion-radio>
+</ion-radio-group>
+
+<br />
+
+<ion-button (click)="focusElement('#buttonToFocus')">Focus Button</ion-button>
+<ion-button (click)="focusElement('#radioToFocus')">Focus Radio</ion-button>
+<br>
+<br>
+<p>12. Ion Content</p>
+
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Scroll Example</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <h1>Click on the buttons to scroll the content.</h1>
+
+  <ion-button expand="block" (click)="scrollToBottom()">
+    Scroll to Bottom
+  </ion-button>
+
+  <h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+  <h3>Heading 3</h3>
+  <h4>Heading 4</h4>
+  <h5>Heading 5</h5>
+  <h6>Heading 6</h6>
+
+   <p *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">
+    This is sample paragraph {{item}}.
+    Ionic provides smooth scrolling functionality.
+    This paragraph is added to demonstrate scrolling.
+  </p>
+  <ion-button expand="block" (click)="scrollToTop()">
+    Scroll to Top
+  </ion-button>
+
+</ion-content>
+<br>
+<p>13. Ion Date&Time</p>
+<p>13.1 Date&Time with Min&Max and Title</p>
+<ion-datetime  color="rose" [showDefaultTitle]="true" value="2022-04-21T10:00:00" min="2022-03-01T00:00:00" max="2022-05-31T23:59:59"></ion-datetime>
+<br><br>
+<p>13.2 Date&Time with specific Minutes and Dates</p>
+<ion-datetime color="rose" minuteValues="0,15,30,45" dayValues="5,10,15,20,25,30"></ion-datetime>
+<br><br>
+<p>13.3 Date&Time with Advanced Date Constraints</p>
+<ion-datetime color="rose" [isDateEnabled]="isWeekday" ></ion-datetime>
+<br>
+<p>13.4 Date&Time with PreferWheel</p>
+<ion-datetime color="rose" presentation="date-time" [preferWheel]="true"></ion-datetime>
+<br>
+<ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+<ion-modal [keepContentsMounted]="true">
+  <ng-template>
+    <ion-datetime
+      id="datetime"
+      presentation="date-time"
+      value="2023-11-02T01:22:00"
+      [formatOptions]="{
+        date: {
+          weekday: 'short',
+          month: 'long',
+          day: '2-digit',
+        },
+        time: {
+          hour: '2-digit',
+          minute: '2-digit',
+        },
+      }"
+    ></ion-datetime>
+  </ng-template>
+</ion-modal>
+<br><br>
+<p>13.5 Date&Time with Ion-Picker</p>
+<ion-picker>
+  <ion-picker-column value="javascript">
+    <ion-picker-column-option value="" disabled="true">--</ion-picker-column-option>
+    <ion-picker-column-option value="angular">Angular</ion-picker-column-option>
+    <ion-picker-column-option value="typescript">Typescript</ion-picker-column-option>
+    <ion-picker-column-option value="ionicframework">Ionic framework</ion-picker-column-option>
+    <ion-picker-column-option value="html">HTML</ion-picker-column-option>
+  </ion-picker-column>
+</ion-picker>
+<br><br>
+<p>14. Floating Action Buttons</p>
+<div class="fab-demo">
+  <ion-fab horizontal="center" vertical="bottom">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="primary">
+        <ion-icon name="chevron-up"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="end">
+      <ion-fab-button color="tertiary">
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="success">
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="bottom">
+      <ion-fab-button color="warning">
+        <ion-icon name="chevron-down"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+    <ion-fab-list side="start">
+      <ion-fab-button color="danger">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="dark">
+        <ion-icon name="chevron-back"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+  <!-- Start FAB -->
+  <ion-fab horizontal="start" vertical="bottom">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="end">
+      <ion-fab-button>
+        <ion-icon name="document"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="color-palette"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="globe"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</div>
+<br><br>
+<p>15. Ion Grids</p>
+<b>Stacked for xs breakpoint, equal width for sm and up</b>
+<ion-grid>
+  <ion-row>
+    <ion-col size="12" size-sm="3">1</ion-col>
+    <ion-col size="12" size-sm="3">2</ion-col>
+    <ion-col size="12" size-sm="3">3</ion-col>
+    <ion-col size="12" size-sm="3">4</ion-col>
+  </ion-row>
+</ion-grid>
+
+<b>Equal width until md breakpoint, last column takes full width for md and up</b>
+<ion-grid>
+  <ion-row>
+    <ion-col size-md="6">1</ion-col>
+    <ion-col size-md="6">2</ion-col>
+    <ion-col size-md="12">3</ion-col>
+  </ion-row>
+</ion-grid>
+
+<b>2 per row until md breakpoint, 3 per row for md, equal width for lg and up</b>
+<ion-grid>
+  <ion-row>
+    <ion-col size="6" size-md="4" size-lg="2">1</ion-col>
+    <ion-col size="6" size-md="4" size-lg="2">2</ion-col>
+    <ion-col size="6" size-md="4" size-lg="2">3</ion-col>
+    <ion-col size="6" size-md="4" size-lg="2">4</ion-col>
+    <ion-col size="6" size-md="4" size-lg="2">5</ion-col>
+    <ion-col size="6" size-md="4" size-lg="2">6</ion-col>
+  </ion-row>
+</ion-grid>
+<p>16. Ion-Icon</p>
+<h2>Font Awesome Icons</h2>
+<div class="row">
+  <ion-icon color="primary">
+    <i class="fas fa-house"></i>
+  </ion-icon>
+  <ion-icon color="secondary">
+    <i class="fas fa-heart"></i>
+  </ion-icon>
+  <ion-icon color="tertiary">
+    <i class="fas fa-star"></i>
+  </ion-icon>
+  <ion-icon color="success">
+    <i class="fas fa-circle-check"></i>
+  </ion-icon>
+  <ion-icon color="warning">
+    <i class="fas fa-triangle-exclamation"></i>
+  </ion-icon>
+  <ion-icon color="danger">
+    <i class="fas fa-trash"></i>
+  </ion-icon>
+</div>
+<div class="row">
+  <ion-button size="small" fill="outline">
+    <ion-icon slot="start">
+      <i class="fas fa-house"></i>
+    </ion-icon>
+    Home
+  </ion-button>
+  <ion-button size="small" fill="outline" color="tertiary">
+    <ion-icon slot="start">
+      <i class="fas fa-star"></i>
+    </ion-icon>
+    Save
+  </ion-button>
+  <ion-button size="small" fill="outline" color="danger">
+    <ion-icon slot="start">
+      <i class="fas fa-trash"></i>
+    </ion-icon>
+    Trash
+  </ion-button>
+</div>
+
+<h2>Bootstrap Icons</h2>
+<div class="row">
+  <ion-icon color="primary">
+    <i class="bi bi-house-fill"></i>
+  </ion-icon>
+  <ion-icon color="secondary">
+    <i class="bi bi-heart-fill"></i>
+  </ion-icon>
+  <ion-icon color="tertiary">
+    <i class="bi bi-star-fill"></i>
+  </ion-icon>
+  <ion-icon color="success">
+    <i class="bi bi-check-circle-fill"></i>
+  </ion-icon>
+  <ion-icon color="warning">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+  </ion-icon>
+  <ion-icon color="danger">
+    <i class="bi bi-trash-fill"></i>
+  </ion-icon>
+</div>
+<div class="row">
+  <ion-button size="small" fill="outline">
+    <ion-icon slot="start">
+      <i class="bi bi-house-fill"></i>
+    </ion-icon>
+    Home
+  </ion-button>
+  <ion-button size="small" fill="outline" color="tertiary">
+    <ion-icon slot="start">
+      <i class="bi bi-star-fill"></i>
+    </ion-icon>
+    Save
+  </ion-button>
+  <ion-button size="small" fill="outline" color="danger">
+    <ion-icon slot="start">
+      <i class="bi bi-trash-fill"></i>
+    </ion-icon>
+    Trash
+  </ion-button>
+</div>
+
+<h2>Remix Icons</h2>
+<div class="row">
+  <ion-icon color="primary">
+    <i class="ri-home-fill"></i>
+  </ion-icon>
+  <ion-icon color="secondary">
+    <i class="ri-heart-fill"></i>
+  </ion-icon>
+  <ion-icon color="tertiary">
+    <i class="ri-star-fill"></i>
+  </ion-icon>
+  <ion-icon color="success">
+    <i class="ri-checkbox-circle-fill"></i>
+  </ion-icon>
+  <ion-icon color="warning">
+    <i class="ri-alert-fill"></i>
+  </ion-icon>
+  <ion-icon color="danger">
+    <i class="ri-delete-bin-fill"></i>
+  </ion-icon>
+</div>
+<div class="row">
+  <ion-button size="small" fill="outline">
+    <ion-icon slot="start">
+      <i class="ri-home-fill"></i>
+    </ion-icon>
+    Home
+  </ion-button>
+  <ion-button size="small" fill="outline" color="tertiary">
+    <ion-icon slot="start">
+      <i class="ri-star-fill"></i>
+    </ion-icon>
+    Save
+  </ion-button>
+  <ion-button size="small" fill="outline" color="danger">
+    <ion-icon slot="start">
+      <i class="ri-delete-bin-fill"></i>
+    </ion-icon>
+    Trash
+  </ion-button>
+</div>
+<br><br>
+<p>17. Ion-Inputs</p>
+<p>17.1 Inputs Type</p>
+<ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-input label="Text input" placeholder="Enter text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Number input" type="number" placeholder="000"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Password input" type="password" value="password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Email input" type="email" placeholder="email@domain.com"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Mobile No" type="tel" placeholder="Enter the Mobile No"></ion-input>
+    </ion-item>
+  </ion-list>
+</ion-list>
+<br>
+<p>17.2. Ion-Input Password Toggle</p>
+<ion-input type="password" label="Password" value="NeverGonnaGiveYouUp">
+  <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+</ion-input>
+<br>
+<p>17.3. Ion-Inputs OTP</p>
+<ion-input-otp> Didn't get a code? <a href="#">Resend the code</a> </ion-input-otp>
+<ion-input-otp type="text" length="6"> Didn't get a code? <a href="#">Resend the code</a> </ion-input-otp>
+<p>18. Ion-TextArea</p>
+<ion-textarea
+  label="Custom Counter Format"
+  labelPlacement="floating"
+  [counter]="true"
+  maxlength="20"
+  [clearOnEdit]="true"
+  [counterFormatter]="customCounterFormatter"
+></ion-textarea>
+<ion-textarea [clearOnEdit]="true" label="Default counter" labelPlacement="floating" [counter]="true" maxlength="20"></ion-textarea>
+<br><br>
+<p>19. Ion-Items</p>
+<p>19.1 Ion-Items with icons and Avatar</p>
+<ion-list>
+  <ion-item>
+    <ion-icon aria-hidden="true" name="airplane" slot="start"></ion-icon>
+    <ion-label>Airplane Mode</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-icon aria-hidden="true" name="wifi" slot="start"></ion-icon>
+    <ion-label>Wi-Fi</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-icon aria-hidden="true" name="bluetooth" slot="start"></ion-icon>
+    <ion-label>Bluetooth</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-icon aria-hidden="true" name="call" slot="start"></ion-icon>
+    <ion-label>Cellular</ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-list>
+  <ion-item>
+    <ion-avatar aria-hidden="true" slot="start">
+      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>Huey</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-avatar aria-hidden="true" slot="start">
+      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>Dewey</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-avatar aria-hidden="true" slot="start">
+      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>Louie</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-avatar aria-hidden="true" slot="start">
+      <img alt="" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+    </ion-avatar>
+    <ion-label>Fooie</ion-label>
+  </ion-item>
+</ion-list>
+<br>
+<p>19.2. Ion-Items Divider</p>
+<ion-list>
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>Frontend</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>Angular</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ionic framework</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>HTML,CSS</ion-label>
+    </ion-item>
+  </ion-item-group>
+
+  <ion-item-group>
+    <ion-item-divider>
+      <ion-label>Plugins</ion-label>
+    </ion-item-divider>
+
+    <ion-item>
+      <ion-label>Capacitor</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Cordova</ion-label>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>Android Studio</ion-label>
+    </ion-item>
+  </ion-item-group>
+</ion-list>
+<br><br>
+<p>19.3. Ion-Items Group</p>
+<ion-item-group>
+  <ion-item-divider>
+    <ion-label> Fruits </ion-label>
+  </ion-item-divider>
+
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label> Grapes </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label> Apples </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item lines="none">
+      <ion-label> Bananas </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-item-group>
+
+<ion-item-group>
+  <ion-item-divider>
+    <ion-label> Vegetables </ion-label>
+  </ion-item-divider>
+
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label> Carrots </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item>
+      <ion-label> Broccoli </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item lines="none">
+      <ion-label> Celery </ion-label>
+    </ion-item>
+    <ion-item-options>
+      <ion-item-option> Favourite </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-item-group>
+<br>
+<p>19.4. Ion-Items Sliding</p>
+<ion-list>
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option color="success">
+        <ion-icon slot="icon-only" name="archive"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label>Sliding Item with Icons Only</ion-label>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option>
+        <ion-icon slot="icon-only" name="heart"></ion-icon>
+      </ion-item-option>
+      <ion-item-option color="danger">
+        <ion-icon slot="icon-only" name="trash"></ion-icon>
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option color="success">
+        <ion-icon slot="start" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label> Sliding Item with Start Icons </ion-label>
+    </ion-item>
+
+    <ion-item-options side="end">
+      <ion-item-option>
+        <ion-icon slot="start" name="heart"></ion-icon>
+        Favorite
+      </ion-item-option>
+      <ion-item-option color="danger">
+        <ion-icon slot="start" name="trash"></ion-icon>
+        Delete
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option color="success">
+        <ion-icon slot="end" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label> Sliding Item with End Icons </ion-label>
+    </ion-item>
+
+    <ion-item-options>
+      <ion-item-option>
+        <ion-icon slot="end" name="heart"></ion-icon>
+        Favorite
+      </ion-item-option>
+      <ion-item-option color="danger">
+        <ion-icon slot="end" name="trash"></ion-icon>
+        Delete
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option color="success">
+        <ion-icon slot="top" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label> Sliding Item with Top Icons </ion-label>
+    </ion-item>
+
+    <ion-item-options>
+      <ion-item-option>
+        <ion-icon slot="top" name="heart"></ion-icon>
+        Favorite
+      </ion-item-option>
+      <ion-item-option color="danger">
+        <ion-icon slot="top" name="trash"></ion-icon>
+        Delete
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding>
+    <ion-item-options side="start">
+      <ion-item-option color="success">
+        <ion-icon slot="bottom" name="archive"></ion-icon>
+        Archive
+      </ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-label> Sliding Item with Bottom Icons </ion-label>
+    </ion-item>
+
+    <ion-item-options>
+      <ion-item-option>
+        <ion-icon slot="bottom" name="heart"></ion-icon>
+        Favorite
+      </ion-item-option>
+      <ion-item-option color="danger">
+        <ion-icon slot="bottom" name="trash"></ion-icon>
+        Delete
+      </ion-item-option>
+    </ion-item-options>
+  </ion-item-sliding>
+</ion-list>
+<br>
+<p>20. Ion-List</p>
+<ion-list lines="full">
+  <ion-item>
+    <ion-label>Full Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Full Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Full Lines</ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-list lines="inset">
+  <ion-item>
+    <ion-label>Inset Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Inset Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>Inset Lines</ion-label>
+  </ion-item>
+</ion-list>
+
+<ion-list lines="none">
+  <ion-item>
+    <ion-label>No Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>No Lines</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-label>No Lines</ion-label>
+  </ion-item>
+</ion-list>
+<br>
+<p>21. Media</p>
+<p>21.1 Ion-Avatar and Item</p>
+<ion-chip>
+  <ion-avatar>
+    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  </ion-avatar>
+  <ion-label>Chip Avatar</ion-label>
+</ion-chip><br>
+<ion-item>
+  <ion-avatar slot="start">
+    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+  </ion-avatar>
+  <ion-label>Item Avatar</ion-label>
+</ion-item>
+<br>
+<p>21.2 Ion-Img</p>
+<ion-img
+  class="custom-image"
+  src="https://docs-demo.ionic.io/assets/madison.jpg"
+  alt="The Wisconsin State Capitol building in Madison, WI at night"
+></ion-img>
+<br>
+<br>
+<p>22. Ion-Popover</p>
+<ion-button id="click-trigger">Left-Click Me</ion-button>
+<ion-popover trigger="click-trigger" triggerAction="click">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-button id="context-menu-trigger">Right-Click Me</ion-button>
+<ion-popover trigger="context-menu-trigger" triggerAction="context-menu">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-button id="hover-trigger">Hover Over Me</ion-button>
+<ion-popover trigger="hover-trigger" triggerAction="hover">
+  <ng-template>
+    <ion-content class="ion-padding">Hello World!</ion-content>
+  </ng-template>
+</ion-popover>
+<br><br>
+<p>23. Ion-Loading</p>
+<ion-button id="open-loading">Show Loading</ion-button>
+<ion-loading trigger="open-loading" message="Loading..." [duration]="5000" spinner="circles"></ion-loading>
+<br>
+<p>24.Ion-Progress-Bar</p>
+<ion-progress-bar [buffer]="buffer()" [value]="progress()"></ion-progress-bar>
+<br>
+<p>25. Ion-Skeleton-Text</p>
+<ion-list>
+  <ion-list-header>
+    <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+  </ion-list-header>
+  <ion-item>
+    <ion-thumbnail slot="start">
+      <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+    </ion-thumbnail>
+    <ion-label>
+      <h3>
+        <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+      </h3>
+      <p>
+        <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+      </p>
+      <p>
+        <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+      </p>
+    </ion-label>
+  </ion-item>
+</ion-list>
+<p>26. Ion-Spinners</p>
+<ion-item>
+  <ion-label>Default</ion-label>
+  <ion-spinner></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Dots</ion-label>
+  <ion-spinner name="dots"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Lines</ion-label>
+  <ion-spinner name="lines"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Lines Small</ion-label>
+  <ion-spinner name="lines-small"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Lines Sharp</ion-label>
+  <ion-spinner name="lines-sharp"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Lines Sharp Small</ion-label>
+  <ion-spinner name="lines-sharp-small"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Bubbles</ion-label>
+  <ion-spinner name="bubbles"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Circles</ion-label>
+  <ion-spinner name="circles"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Circular</ion-label>
+  <ion-spinner name="circular"></ion-spinner>
+</ion-item>
+
+<ion-item>
+  <ion-label>Crescent</ion-label>
+  <ion-spinner name="crescent"></ion-spinner>
+</ion-item>
+<p>27. Ion-Infinite-Scroll</p>
+<ion-content class="demo-scroll-content infinite-scroll-demo">
+  <ion-list>
+    @for (item of items; track item; let index = $index) {
+    <ion-item>
+      <ion-avatar slot="start">
+        <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+      </ion-avatar>
+      <ion-label>{{ item }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  <ion-infinite-scroll>
+    <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
+<br><br><br>
+<p>28. Ion-Radio</p>
+<ion-radio-group value="start">
+  <ion-radio value="start" labelPlacement="start">Label at the Start</ion-radio>
+</ion-radio-group>
+
+<br />
+
+<ion-radio-group value="end">
+  <ion-radio value="end" labelPlacement="end">Label at the End</ion-radio>
+</ion-radio-group>
+
+<br />
+
+<ion-radio-group value="fixed">
+  <ion-radio value="fixed" labelPlacement="fixed">Fixed Width Label</ion-radio>
+</ion-radio-group>
+
+<br />
+
+<ion-radio-group value="stacked">
+  <ion-radio value="stacked" labelPlacement="stacked">Stacked Label</ion-radio>
+</ion-radio-group>
+<br><br>
+<p>29. Ion-Range</p>
+<ion-range aria-label="Range with pins"  [pin]="true" [pinFormatter]="pinFormatter">
+  <ion-icon slot="end" name="snow-outline"></ion-icon>
+  <ion-icon slot="start" name="sunny-outline"></ion-icon>
+</ion-range>
+<br><br>
+<p>30. Ion-Refresher</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Pull to Refresh</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="demo-scroll-content refresher-demo ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing..."
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <p>Pull this content down to trigger the refresh.</p>
+</ion-content>
+
+<p>31. Ion-ReOrder</p>
+<ion-list>
+  <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+  <ion-reorder-group [disabled]="isDisabled" (ionReorderEnd)="handleReorderEnd($any($event))">
+    <ion-item>
+      <ion-label> Item 1 </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Item 2 </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Item 3 </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Item 4 </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+
+    <ion-item>
+      <ion-label> Item 5 </ion-label>
+      <ion-reorder slot="end">
+        <ion-icon name="pizza"></ion-icon>
+      </ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
+</ion-list>
+<!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+<ion-button (click)="toggleReorder()"> Toggle Reorder </ion-button>
+<br><br>
+<p>32. Ion-SearchBar</p>
+<ion-searchbar show-clear-button="focus" value="Show on Focus" clear-icon="trash"></ion-searchbar>
+<ion-searchbar show-clear-button="always" value="Always Show"></ion-searchbar>
+<ion-searchbar show-clear-button="never" value="Never Show"></ion-searchbar>
+<ion-searchbar show-clear-button="always" clear-icon="trash-bin" value="Custom Clear Icon"></ion-searchbar>
+<br><br>
+<ion-searchbar [debounce]="1000" (ionInput)="handleInput($event)"></ion-searchbar>
+<ion-list>
+  @for (result of results; track result) {
+  <ion-item>
+    <ion-label>{{ result }}</ion-label>
+  </ion-item>
+  }
+</ion-list>
+<br><br>
+<p>33. Ion-Segment</p>
+<p>33.1 Segment with Scroll</p>
+<ion-segment [scrollable]="true" value="heart">
+  <ion-segment-button value="home">
+    <ion-icon name="home"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart">
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin">
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="star">
+    <ion-icon name="star"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="call">
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="globe">
+    <ion-icon name="globe"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="basket">
+    <ion-icon name="basket"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="barbell">
+    <ion-icon name="barbell"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="trash">
+    <ion-icon name="trash"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="person">
+    <ion-icon name="person"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+<br>
+<p>33.2 Segment Button with Layout</p>
+<ion-segment value="heart">
+  <ion-segment-button value="call">
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart">
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin">
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-segment value="heart">
+  <ion-segment-button value="call">
+    <ion-label>Call</ion-label>
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart">
+    <ion-label>Heart</ion-label>
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin">
+    <ion-label>Pin</ion-label>
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-segment value="heart">
+  <ion-segment-button value="call" layout="icon-bottom">
+    <ion-label>Call</ion-label>
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart" layout="icon-bottom">
+    <ion-label>Heart</ion-label>
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin" layout="icon-bottom">
+    <ion-label>Pin</ion-label>
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-segment value="heart">
+  <ion-segment-button value="call" layout="icon-start">
+    <ion-label>Call</ion-label>
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart" layout="icon-start">
+    <ion-label>Heart</ion-label>
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin" layout="icon-start">
+    <ion-label>Pin</ion-label>
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+
+<ion-segment value="heart">
+  <ion-segment-button value="call" layout="icon-end">
+    <ion-label>Call</ion-label>
+    <ion-icon name="call"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="heart" layout="icon-end">
+    <ion-label>Heart</ion-label>
+    <ion-icon name="heart"></ion-icon>
+  </ion-segment-button>
+  <ion-segment-button value="pin" layout="icon-end">
+    <ion-label>Pin</ion-label>
+    <ion-icon name="pin"></ion-icon>
+  </ion-segment-button>
+</ion-segment>
+<br><br>
+<p>33.3 Segment with Content</p>
+<ion-segment>
+  <ion-segment-button value="first" content-id="first">
+    <ion-label>First</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="second" content-id="second">
+    <ion-label>Second</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="third" content-id="third">
+    <ion-label>Third</ion-label>
+  </ion-segment-button>
+</ion-segment>
+<ion-segment-view>
+  <ion-segment-content id="first">First</ion-segment-content>
+  <ion-segment-content id="second">Second</ion-segment-content>
+  <ion-segment-content id="third">Third</ion-segment-content>
+</ion-segment-view>
+<br><br>
+<p>34. Ion-Select</p>
+<ion-list>
+  <ion-item>
+    <ion-select label="Alert" [interfaceOptions]="customAlertOptions" interface="alert" placeholder="Select One">
+      <ion-select-option value="bacon">Bacon</ion-select-option>
+      <ion-select-option value="onions">Onions</ion-select-option>
+      <ion-select-option value="pepperoni">Pepperoni</ion-select-option>
+      <ion-select-option value="extracheese">Extra Cheese</ion-select-option>
+      <ion-select-option value="veggies">Veggies</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Popover" [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="Select One">
+      <ion-select-option value="brown">Brown</ion-select-option>
+      <ion-select-option value="blonde">Blonde</ion-select-option>
+      <ion-select-option value="red">Red</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select
+      label="Action Sheet"
+      [interfaceOptions]="customActionSheetOptions"
+      interface="action-sheet"
+      placeholder="Select One"
+    >
+      <ion-select-option value="rcb">RCB</ion-select-option>
+      <ion-select-option value="csk">CSK</ion-select-option>
+      <ion-select-option value="MI">MI</ion-select-option>
+      <ion-select-option value="srh">SRH</ion-select-option>
+      <ion-select-option value="kkr">KKR</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-select label="Modal" [interfaceOptions]="customModalOptions" interface="modal" placeholder="Select One">
+      <ion-select-option value="5star">5 Star</ion-select-option>
+      <ion-select-option value="dairymilk">Dairy Milk</ion-select-option>
+      <ion-select-option value="milkybar">Milky Bar</ion-select-option>
+      <ion-select-option value="snickers">Snickers</ion-select-option>
+      <ion-select-option value="kitkat">Kit-kat</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>
+<br><br>
+<p>35. Ion-Tabs</p>
+<section class="tabs-demo">
+
+  <ion-tabs>
+
+    <ion-tab tab="home">
+      <div class="ion-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Listen Now</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+          <div class="example-content">
+            Listen Now Content
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+
+    <ion-tab tab="radio">
+      <div class="ion-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Radio</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+          <div class="example-content">
+            Radio Content
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+
+    <ion-tab tab="library">
+      <div class="ion-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Library</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+          <div class="example-content">
+            Library Content
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+
+    <ion-tab tab="search">
+      <div class="ion-page">
+        <ion-header>
+          <ion-toolbar>
+            <ion-title>Search</ion-title>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+          <div class="example-content">
+            Search Content
+          </div>
+        </ion-content>
+      </div>
+    </ion-tab>
+
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button tab="home">
+        <ion-icon name="play-circle"></ion-icon>
+        <ion-label>Listen Now</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="radio">
+        <ion-icon name="radio"></ion-icon>
+        <ion-label>Radio</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="library">
+        <ion-icon name="library"></ion-icon>
+        <ion-label>Library</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="search">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Search</ion-label>
+      </ion-tab-button>
+
+    </ion-tab-bar>
+
+  </ion-tabs>
+
+</section>
+
+<br><br>
+<p>36. Ion-Toast Layout</p>
+<ion-button id="open-inline-toast">Open Baseline Layout Toast</ion-button>
+<ion-button id="open-stacked-toast">Open Stacked Layout Toast</ion-button>
+<ion-toast
+  trigger="open-inline-toast"
+  [duration]="3000"
+  [buttons]="toastButtons"
+  message="This is a toast with a long message and a button that appears on the same line."
+></ion-toast>
+<ion-toast
+  trigger="open-stacked-toast"
+  [duration]="3000"
+  [buttons]="toastButtons"
+  message="This is a toast with a long message and a button that appears on the next line."
+  layout="stacked"
+></ion-toast>
+<br><br>
+<p>37. Ion-Toggle</p>
+<ion-toggle>Default Toggle</ion-toggle><br /><br />
+<ion-toggle [checked]="true">Checked Toggle</ion-toggle><br /><br />
+<ion-toggle [disabled]="true">Disabled Toggle</ion-toggle><br /><br />
+<ion-toggle [checked]="true" [disabled]="true">Disabled Checked Toggle</ion-toggle>
+<br><br>
+<ion-toggle [enableOnOffLabels]="true">Enable Notifications</ion-toggle>
+<br><br>
+<ion-footer>
+  <ion-toolbar color="primary">
+    <ion-title>Footer</ion-title>
+  </ion-toolbar>
+</ion-footer>
+</div>

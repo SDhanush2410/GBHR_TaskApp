@@ -6,7 +6,7 @@ import {
   AlertController,
   LoadingController
 } from '@ionic/angular/lazy';
-
+import { AttendanceNotificationService } from '../../services/attendance-notification.service';
 interface AttendanceRecord {
   id: number;
   employeeId: string;
@@ -40,7 +40,8 @@ export class AttendancePage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private alertController: AlertController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private attendanceNotificationService: AttendanceNotificationService
   ) {}
 
   ngOnInit() {
@@ -412,7 +413,14 @@ export class AttendancePage implements OnInit {
     if (this.isCapturing) {
       return;
     }
+// Check whether device Location is ON before attendance capture
+const locationEnabled =
+  await this.attendanceNotificationService.isLocationEnabled();
 
+if (!locationEnabled) {
+  await this.attendanceNotificationService.checkLocationStatus();
+  return;
+}
     // IMPORTANT:
     // Validate before setting isCapturing to true.
     // Do not use canCheckIn/canCheckOut after changing
@@ -504,7 +512,14 @@ export class AttendancePage implements OnInit {
       );
 
       console.log('STEP 5: Attendance saved');
+      // STEP 6: Show attendance notification.
 
+      if (type === 'Check-in') {
+        await this.attendanceNotificationService.checkInSuccess();
+      } 
+      else {
+        await this.attendanceNotificationService.checkOutSuccess();
+      }
       console.log(
         'Saved record count:',
         this.attendanceRecords.length

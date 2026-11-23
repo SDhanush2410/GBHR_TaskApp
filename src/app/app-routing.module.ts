@@ -40,9 +40,14 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'component',
+    loadChildren: () => import('./pages/component/component.module').then( m => m.ComponentPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login'
   }
+  
 ];
 
 @NgModule({

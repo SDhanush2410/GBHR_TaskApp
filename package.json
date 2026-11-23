@@ -16,12 +16,16 @@
     "@angular/common": "22.2.6",
     "@angular/compiler": "22.2.6",
     "@angular/core": "22.2.6",
-    "@angular/forms": "22.2.6",
+    "@angular/forms": "^22.2.6",
     "@angular/platform-browser": "22.2.6",
     "@angular/platform-browser-dynamic": "22.2.6",
     "@angular/router": "22.2.6",
+    "@fortawesome/fontawesome-free": "^7.3.1",
     "@ionic/angular": "^9.0.0",
+    "@phosphor-icons/web": "^2.1.2",
+    "bootstrap-icons": "^1.13.2",
     "ionicons": "^8.1.0",
+    "remixicon": "^4.9.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
@@ -34,12 +38,15 @@
     "angular-eslint": "22.6.0",
     "cordova-android": "^15.1.0",
     "cordova-plugin-camera": "^8.0.0",
-    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-device": "^3.0.0",
+    "cordova-plugin-firebasex-messaging": "^2.0.3",
     "cordova-plugin-geolocation": "^5.0.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^5.0.0",
+    "cordova-plugin-local-notifications-continued": "^1.2.6",
     "cordova-plugin-splashscreen": "5.0.2",
     "cordova-plugin-statusbar": "^2.4.2",
+    "cordova.plugins.diagnostic": "^7.4.0",
     "eslint": "^10.10.0",
     "jsdom": "^31.0.0",
     "typescript": "~6.0.0",
@@ -50,12 +57,27 @@
   "cordova": {
     "plugins": {
       "cordova-plugin-statusbar": {},
-      "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-camera": {},
-      "cordova-plugin-geolocation": {}
+      "cordova-plugin-geolocation": {},
+      "cordova-plugin-firebasex-messaging": {
+        "FIREBASE_FCM_AUTOINIT_ENABLED": "true",
+        "FIREBASE_MESSAGING_IMMEDIATE_PAYLOAD_DELIVERY": "false",
+        "IOS_FCM_ENABLED": "true",
+        "IOS_ENABLE_CRITICAL_ALERTS_ENABLED": "false",
+        "ANDROID_ICON_ACCENT": "#FFFFFF",
+        "ANDROID_FIREBASE_MESSAGING_VERSION": "25.0.2"
+      },
+      "cordova.plugins.diagnostic": {
+        "ANDROIDX_VERSION": "1.0.0",
+        "ANDROIDX_APPCOMPAT_VERSION": "1.3.1"
+      },
+      "cordova-plugin-device": {},
+      "cordova-plugin-local-notifications-continued": {
+        "ANDROIDX_CORE_VERSION": "1.12.0"
+      }
     },
     "platforms": [
       "android"
