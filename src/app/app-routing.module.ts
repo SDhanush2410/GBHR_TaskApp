@@ -41,12 +41,34 @@ const routes: Routes = [
   },
   {
     path: 'component',
-    loadChildren: () => import('./pages/component/component.module').then( m => m.ComponentPageModule)
+    loadChildren: () => 
+      import('./pages/component/component.module')
+        .then( m => m.ComponentPageModule)
+  },
+  {
+    path: 'trip',
+    loadChildren: () => 
+      import('./pages/trip/trip.module')
+        .then( m => m.TripPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => 
+      import('./pages/chat/chat.module')
+        .then( m => m.ChatPageModule)
+  },
+  {
+    path: 'firebase-test-login',
+    loadChildren: () => 
+      import('./pages/firebase-test-login/firebase-test-login.module')
+        .then( m => m.FirebaseTestLoginPageModule)
   },
   {
     path: '**',
     redirectTo: 'login'
-  }
+  },
+
+  
   
 ];
 

@@ -1,0 +1,311 @@
+
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="chat-page">
+
+    <!-- PAGE HEADING -->
+    <div class="page-heading">
+      <h1>Chat</h1>
+      <p>Connect and communicate with your colleagues.</p>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-state" *ngIf="isLoading">
+
+      <ion-spinner name="crescent"></ion-spinner>
+
+      <p>Loading your employee details...</p>
+
+    </div>
+
+    <!-- CURRENT FIREBASE EMPLOYEE -->
+    <div
+      class="employee-card"
+      *ngIf="currentEmployee && !isLoading">
+
+      <div class="employee-avatar">
+
+        {{
+          currentEmployee.firstName?.charAt(0) || '?'
+        }}
+
+      </div>
+
+      <div class="employee-info">
+
+        <h3>
+          {{ currentEmployee.firstName || 'Employee' }}
+          {{ currentEmployee.lastName || '' }}
+        </h3>
+
+        <p>
+          Employee ID:
+          {{ currentEmployee.employeeId || 'N/A' }}
+        </p>
+
+        <small>
+          {{ currentEmployee.email || '' }}
+        </small>
+
+      </div>
+
+      <ion-badge color="success">
+        Firebase Logged in
+      </ion-badge>
+
+    </div>
+
+    <!-- FIREBASE LOGIN REQUIRED -->
+    <div
+      class="empty-state"
+      *ngIf="!currentEmployee && !isLoading && !errorMessage">
+
+      <ion-icon name="lock-closed-outline"></ion-icon>
+
+      <h2>Firebase Login Required</h2>
+
+      <p>Please sign in to Firebase to access Chat.</p>
+
+      <ion-button routerLink="/firebase-test-login">
+        Firebase Test Login
+      </ion-button>
+
+    </div>
+
+    <!-- EMPLOYEE LOADING ERROR -->
+    <div
+      class="error-state"
+      *ngIf="errorMessage && !isLoading">
+
+      <ion-icon name="alert-circle-outline"></ion-icon>
+
+      <p>{{ errorMessage }}</p>
+
+      <ion-button
+        routerLink="/firebase-test-login"
+        *ngIf="!currentEmployee">
+
+        Firebase Login
+
+      </ion-button>
+
+      <ion-button
+        (click)="loadEmployeeDetails(currentFirebaseUid)"
+        *ngIf="currentEmployee">
+
+        Retry
+
+      </ion-button>
+
+    </div>
+
+    <!-- EMPLOYEE LIST -->
+    <div
+      *ngIf="
+        currentEmployee &&
+        !selectedEmployee &&
+        !isLoading &&
+        !errorMessage
+      ">
+
+      <div class="section-heading">
+
+        <h2>Employees</h2>
+
+        <p>Select an employee to start a conversation.</p>
+
+      </div>
+
+      <!-- SEARCH -->
+      <ion-searchbar
+        [(ngModel)]="searchText"
+        placeholder="Search employees"
+        animated="true">
+      </ion-searchbar>
+
+      <!-- EMPLOYEE DIRECTORY -->
+      <div class="employee-list">
+
+        <div
+          class="employee-item"
+          *ngFor="let employee of filteredEmployees"
+          (click)="openChat(employee)">
+
+          <div class="employee-avatar">
+
+            {{
+              employee.firstName?.charAt(0) || '?'
+            }}
+
+          </div>
+
+          <div class="employee-info">
+
+            <h3>
+              {{ employee.firstName || 'Employee' }}
+              {{ employee.lastName || '' }}
+            </h3>
+
+            <p>
+              Employee Code:
+              {{ employee.employeeId || 'N/A' }}
+            </p>
+
+            <small>
+              {{ employee.email || '' }}
+            </small>
+
+          </div>
+
+          <ion-icon
+            name="chevron-forward-outline"
+            class="arrow-icon">
+          </ion-icon>
+
+        </div>
+
+        <!-- NO EMPLOYEES -->
+        <div
+          class="empty-state"
+          *ngIf="filteredEmployees.length === 0">
+
+          <ion-icon name="people-outline"></ion-icon>
+
+          <h3>No employees found</h3>
+
+          <p>
+            There are no other employees available in the directory.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CONVERSATION -->
+    <div
+      class="conversation-container"
+      *ngIf="currentEmployee && selectedEmployee">
+
+      <!-- CONVERSATION HEADER -->
+      <div class="conversation-header">
+
+        <ion-button
+          fill="clear"
+          color="dark"
+          (click)="backToEmployees()">
+
+          <ion-icon
+            name="arrow-back-outline"
+            slot="icon-only">
+          </ion-icon>
+
+        </ion-button>
+
+        <div class="employee-avatar small-avatar">
+
+          {{
+            selectedEmployee.firstName?.charAt(0) || '?'
+          }}
+
+        </div>
+
+        <div class="employee-info">
+
+          <h3>
+            {{ selectedEmployee.firstName || 'Employee' }}
+            {{ selectedEmployee.lastName || '' }}
+          </h3>
+
+          <small>
+            {{ selectedEmployee.employeeId || 'N/A' }}
+          </small>
+
+        </div>
+
+      </div>
+
+      <!-- CHAT ERROR -->
+      <div class="chat-error" *ngIf="chatError">
+
+        {{ chatError }}
+
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="messages-area">
+
+        <div
+          class="message-row"
+          *ngFor="let message of messages"
+          [class.my-message-row]="isMyMessage(message)">
+
+          <div
+            class="message-bubble"
+            [class.my-message]="isMyMessage(message)"
+            [class.other-message]="!isMyMessage(message)">
+
+            <p>{{ message.text }}</p>
+
+            <small>
+              {{ message.createdAt | date:'shortTime' }}
+            </small>
+
+          </div>
+
+        </div>
+
+        <!-- EMPTY CHAT -->
+        <div
+          class="empty-chat"
+          *ngIf="messages.length === 0 && !chatError">
+
+          <ion-icon name="chatbubbles-outline"></ion-icon>
+
+          <h3>Start a conversation</h3>
+
+          <p>
+            Send your first message to
+            {{ selectedEmployee.firstName || 'your colleague' }}.
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- MESSAGE INPUT -->
+      <div class="message-input-area">
+
+        <ion-input
+          [(ngModel)]="newMessage"
+          placeholder="Type a message..."
+          (keyup.enter)="sendMessage()">
+        </ion-input>
+
+        <ion-button
+          shape="round"
+          [disabled]="!newMessage.trim() || isSending"
+          (click)="sendMessage()">
+
+          <ion-spinner
+            *ngIf="isSending"
+            name="crescent">
+          </ion-spinner>
+
+          <ion-icon
+            *ngIf="!isSending"
+            name="send">
+          </ion-icon>
+
+        </ion-button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

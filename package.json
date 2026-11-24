@@ -20,10 +20,12 @@
     "@angular/platform-browser": "22.2.6",
     "@angular/platform-browser-dynamic": "22.2.6",
     "@angular/router": "22.2.6",
+    "@awesome-cordova-plugins/local-notifications": "^9.7.0",
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@ionic/angular": "^9.0.0",
     "@phosphor-icons/web": "^2.1.2",
     "bootstrap-icons": "^1.13.2",
+    "firebase": "^13.4.0",
     "ionicons": "^8.1.0",
     "remixicon": "^4.9.1",
     "rxjs": "~7.8.0",
@@ -37,6 +39,7 @@
     "@ionic/angular-toolkit": "^13.0.0",
     "angular-eslint": "22.6.0",
     "cordova-android": "^15.1.0",
+    "cordova-background-geolocation-lt": "^5.6.0",
     "cordova-plugin-camera": "^8.0.0",
     "cordova-plugin-device": "^3.0.0",
     "cordova-plugin-firebasex-messaging": "^2.0.3",
@@ -77,6 +80,11 @@
       "cordova-plugin-device": {},
       "cordova-plugin-local-notifications-continued": {
         "ANDROIDX_CORE_VERSION": "1.12.0"
+      },
+      "cordova-background-geolocation-lt": {
+        "GOOGLE_API_VERSION": "21.3.0",
+        "TSLOCATIONMANAGER_VERSION": "4.7.+",
+        "EVENTBUS_VERSION": "3.3.1"
       }
     },
     "platforms": [

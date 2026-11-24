@@ -1,0 +1,218 @@
+
+<app-header></app-header>
+
+<ion-content class="trip-content">
+
+  <!-- Page Heading -->
+  <div class="page-heading">
+
+    <div>
+      <h1>My Trip</h1>
+      <p>Plan your journey and explore the route</p>
+    </div>
+
+    <ion-button
+      fill="clear"
+      class="current-location-btn"
+      (click)="detectCurrentLocation()">
+
+      <ion-icon name="locate-outline"></ion-icon>
+
+    </ion-button>
+
+  </div>
+
+  <!-- Location Search Card -->
+  <div class="location-card">
+
+    <!-- From Location -->
+    <div class="location-row">
+
+      <ion-icon
+        name="navigate-circle"
+        class="from-icon">
+      </ion-icon>
+
+      <div class="location-input">
+
+        <ion-label>From</ion-label>
+
+        <ion-input
+          #fromInput
+          type="text"
+          [value]="fromAddress"
+          placeholder="Search start location..."
+          [disabled]="isTracking">
+        </ion-input>
+
+      </div>
+
+      <ion-icon
+        name="search-outline"
+        class="search-icon">
+      </ion-icon>
+
+    </div>
+
+    <div class="location-divider">
+      <span></span>
+    </div>
+
+    <!-- To Location -->
+    <div class="location-row">
+
+      <ion-icon
+        name="location"
+        class="to-icon">
+      </ion-icon>
+
+      <div class="location-input">
+
+        <ion-label>To</ion-label>
+
+        <ion-input
+          #toInput
+          type="text"
+          [value]="toAddress"
+          placeholder="Search destination...">
+        </ion-input>
+
+      </div>
+
+      <ion-icon
+        name="search-outline"
+        class="search-icon">
+      </ion-icon>
+
+    </div>
+
+  </div>
+
+  <!-- Route Information -->
+  <div class="route-info-card">
+
+    <div class="route-info">
+
+      <ion-icon name="map-outline"></ion-icon>
+
+      <div>
+        <h2>{{ routeDistance }}</h2>
+        <p>Distance</p>
+      </div>
+
+    </div>
+
+    <div class="vertical-divider"></div>
+
+    <div class="route-info">
+
+      <ion-icon name="time-outline"></ion-icon>
+
+      <div>
+        <h2>{{ routeDuration }}</h2>
+        <p>Estimated Duration</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- GPS Tracking Status -->
+  <div class="tracking-status">
+
+    <span
+      class="status-dot"
+      [class.active]="isTracking"
+      [class.completed]="trackingCompleted">
+    </span>
+
+    <div>
+
+      <h3>
+        {{ isTracking
+          ? 'Background GPS Tracking Active'
+          : trackingCompleted
+            ? 'Destination Reached'
+            : 'Waiting for Destination'
+        }}
+      </h3>
+
+      <p>
+        {{ isTracking
+          ? 'Your location is being tracked automatically'
+          : trackingCompleted
+            ? 'Background tracking has stopped'
+            : 'Select your destination to calculate the route'
+        }}
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Google Map -->
+  <div class="map-card">
+
+    <div class="map-heading">
+      <h2>Live Location</h2>
+
+      <ion-icon
+        name="navigate-circle-outline">
+      </ion-icon>
+    </div>
+
+    <div class="map-container">
+
+      <div
+        #mapElement
+        id="tripMap">
+      </div>
+
+      <div
+        *ngIf="!mapReady"
+        class="map-loading">
+
+        <ion-spinner name="crescent"></ion-spinner>
+
+        <p>Loading Google Maps...</p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Actual GPS Distance -->
+  <div class="gps-distance-card">
+
+    <ion-icon name="speedometer-outline"></ion-icon>
+
+    <div>
+      <h3>
+        {{ actualDistance | number:'1.2-2' }} KM
+      </h3>
+
+      <p>Actual GPS distance travelled</p>
+    </div>
+
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+
+    <ion-spinner name="crescent"></ion-spinner>
+
+    <p>Processing location...</p>
+
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-message">
+
+    <ion-icon name="alert-circle-outline"></ion-icon>
+
+    <p>{{ errorMessage }}</p>
+
+  </div>
+
+</ion-content>

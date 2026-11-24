@@ -1,3 +1,4 @@
+
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>GB HERMES</ion-title>
@@ -30,12 +31,25 @@
         <ion-label>Attendance</ion-label>
       </ion-item>
 
+      <!-- Trip Menu -->
+      <ion-item button (click)="navigateTo('/trip')">
+        <ion-icon name="navigate-outline" slot="start"></ion-icon>
+        <ion-label>Trip</ion-label>
+      </ion-item>
+
+      <!-- Chat Menu -->
+      <ion-item button (click)="navigateTo('/chat')">
+        <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+        <ion-label>Chat</ion-label>
+      </ion-item>
+
       <!-- Components Menu -->
       <ion-item button (click)="navigateTo('/component')">
         <ion-icon name="code-slash-outline" slot="start"></ion-icon>
         <ion-label>Components</ion-label>
       </ion-item>
 
+      <!-- Logout -->
       <ion-item button class="logout-item" (click)="logout()">
         <ion-icon name="log-out-outline" slot="start"></ion-icon>
         <ion-label>Logout</ion-label>
