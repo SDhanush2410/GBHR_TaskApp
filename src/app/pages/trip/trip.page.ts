@@ -5,7 +5,9 @@ import {
   OnDestroy,
   AfterViewInit,
   ViewChild,
-  ElementRef
+  ElementRef,
+  NgZone,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -14,7 +16,6 @@ import {
 } from '@ionic/angular';
 
 import { Subscription } from 'rxjs';
-
 import { TripService } from '../../services/trip.service';
 
 declare const google: any;
@@ -36,8 +37,6 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toInput')
   toInput!: IonInput;
 
-  // Google Maps API key.
-  // Replace this with your actual API key.
   private googleMapsApiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
 
   private map: any;
@@ -47,7 +46,6 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
   private fromAutocomplete: any;
   private toAutocomplete: any;
-
   private currentMarker: any;
 
   fromAddress = 'Detecting current location...';
@@ -76,10 +74,20 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
   constructor(
     private tripService: TripService,
-    private platform: Platform
+    private platform: Platform,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  async ngOnInit() {
+  // Run external callbacks inside Angular and refresh the page.
+  private updateUI(callback: () => void): void {
+    this.ngZone.run(() => {
+      callback();
+      this.cdr.detectChanges();
+    });
+  }
+
+  async ngOnInit(): Promise<void> {
 
     await this.platform.ready();
 
@@ -89,37 +97,48 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       this.distanceSubscription =
         this.tripService.distance$.subscribe(value => {
-          this.actualDistance = value;
+          this.updateUI(() => {
+            this.actualDistance = value;
+          });
         });
 
       this.trackingSubscription =
         this.tripService.tracking$.subscribe(value => {
 
-          this.isTracking = value;
+          this.updateUI(() => {
 
-          if (value) {
-            this.trackingStarted = true;
-          }
+            this.isTracking = value;
 
-          if (!value && this.trackingStarted) {
-            this.trackingCompleted = true;
-          }
+            if (value) {
+              this.trackingStarted = true;
+              this.trackingCompleted = false;
+            }
+
+            if (!value && this.trackingStarted) {
+              this.trackingCompleted = true;
+            }
+
+          });
 
         });
 
       this.locationSubscription =
         this.tripService.locations$.subscribe(locations => {
 
-          if (locations.length > 0) {
+          this.updateUI(() => {
 
-            const last = locations[locations.length - 1];
+            if (locations.length > 0) {
 
-            this.updateCurrentMarker(
-              last.latitude,
-              last.longitude
-            );
+              const last = locations[locations.length - 1];
 
-          }
+              this.updateCurrentMarker(
+                last.latitude,
+                last.longitude
+              );
+
+            }
+
+          });
 
         });
 
@@ -127,13 +146,16 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       console.error('GPS initialization error:', error);
 
-      this.errorMessage =
-        'Unable to initialize background GPS tracking.';
+      this.updateUI(() => {
+        this.errorMessage =
+          'Unable to initialize background GPS tracking.';
+      });
 
     }
+
   }
 
-  async ngAfterViewInit() {
+  async ngAfterViewInit(): Promise<void> {
 
     try {
 
@@ -141,7 +163,7 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       this.initializeMap();
 
-      this.initializeAutocomplete();
+      await this.initializeAutocomplete();
 
       await this.detectCurrentLocation();
 
@@ -149,14 +171,19 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       console.error('Google Maps error:', error);
 
-      this.errorMessage =
-        'Unable to load Google Maps. Please check your API key and API settings.';
+      this.updateUI(() => {
+        this.errorMessage =
+          'Unable to load Google Maps. Please check your API key and API settings.';
+      });
 
     } finally {
 
-      this.loading = false;
+      this.updateUI(() => {
+        this.loading = false;
+      });
 
     }
+
   }
 
   // Load Google Maps JavaScript API.
@@ -176,9 +203,10 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       if (existingScript) {
 
-        existingScript.addEventListener('load', () => resolve());
-
-        existingScript.addEventListener('error', () => reject());
+        existingScript.addEventListener('load', () => resolve(), { once: true });
+        existingScript.addEventListener('error', () => reject(
+          new Error('Google Maps script failed to load')
+        ), { once: true });
 
         return;
       }
@@ -204,10 +232,11 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
       document.head.appendChild(script);
 
     });
+
   }
 
   // Initialize map.
-  initializeMap() {
+  initializeMap(): void {
 
     this.map = new google.maps.Map(
       this.mapElement.nativeElement,
@@ -222,7 +251,6 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
         mapTypeControl: false,
         streetViewControl: false,
         fullscreenControl: false,
-
         zoomControl: true,
 
         styles: [
@@ -250,11 +278,14 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
     this.geocoder = new google.maps.Geocoder();
 
-    this.mapReady = true;
+    this.updateUI(() => {
+      this.mapReady = true;
+    });
+
   }
 
   // Enable address search suggestions.
-  async initializeAutocomplete() {
+  async initializeAutocomplete(): Promise<void> {
 
     const fromElement =
       await this.fromInput.getInputElement();
@@ -290,22 +321,27 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
       'place_changed',
       () => {
 
-        const place =
-          this.fromAutocomplete.getPlace();
+        this.updateUI(() => {
 
-        if (!place.geometry?.location) {
-          return;
-        }
+          const place =
+            this.fromAutocomplete.getPlace();
 
-        this.fromLocation = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng()
-        };
+          if (!place.geometry?.location) {
+            return;
+          }
 
-        this.fromAddress =
-          place.formatted_address || place.name;
+          this.fromLocation = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
 
-        this.calculateRoute();
+          this.fromAddress =
+            place.formatted_address || place.name;
+
+          this.calculateRoute();
+
+        });
+
       }
     );
 
@@ -313,59 +349,73 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
       'place_changed',
       () => {
 
-        const place =
-          this.toAutocomplete.getPlace();
+        this.updateUI(() => {
 
-        if (!place.geometry?.location) {
-          return;
-        }
+          const place =
+            this.toAutocomplete.getPlace();
 
-        this.toLocation = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng()
-        };
+          if (!place.geometry?.location) {
+            return;
+          }
 
-        this.toAddress =
-          place.formatted_address || place.name;
+          this.toLocation = {
+            lat: place.geometry.location.lat(),
+            lng: place.geometry.location.lng()
+          };
 
-        this.calculateRoute();
+          this.toAddress =
+            place.formatted_address || place.name;
+
+          this.calculateRoute();
+
+        });
+
       }
     );
 
   }
 
   // Detect current GPS location.
-  async detectCurrentLocation() {
+  async detectCurrentLocation(): Promise<void> {
 
     try {
 
       const location =
         await this.tripService.getCurrentPosition();
 
-      this.fromLocation = {
-        lat: location.latitude,
-        lng: location.longitude
-      };
+      const address = await this.getAddress(
+        location.latitude,
+        location.longitude
+      );
 
-      this.fromAddress =
-        await this.getAddress(
+      this.updateUI(() => {
+
+        this.fromLocation = {
+          lat: location.latitude,
+          lng: location.longitude
+        };
+
+        this.fromAddress = address;
+
+        if (this.map) {
+          this.map.setCenter(this.fromLocation);
+        }
+
+        this.updateCurrentMarker(
           location.latitude,
           location.longitude
         );
 
-      this.map.setCenter(this.fromLocation);
-
-      this.updateCurrentMarker(
-        location.latitude,
-        location.longitude
-      );
+      });
 
     } catch (error) {
 
       console.error('Current location error:', error);
 
-      this.errorMessage =
-        'Unable to detect current location. Enable GPS permission.';
+      this.updateUI(() => {
+        this.errorMessage =
+          'Unable to detect current location. Enable GPS permission.';
+      });
 
     }
 
@@ -389,19 +439,21 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
         (results: any, status: any) => {
 
+          let address = 'Current location';
+
           if (
             status === 'OK' &&
             results &&
             results.length > 0
           ) {
-
-            resolve(results[0].formatted_address);
-
-          } else {
-
-            resolve('Current location');
-
+            address = results[0].formatted_address;
           }
+
+          this.updateUI(() => {
+            // Ensure Angular refreshes after the Maps callback.
+          });
+
+          resolve(address);
 
         }
       );
@@ -411,28 +463,34 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Calculate route, distance and estimated duration.
-  calculateRoute() {
+  calculateRoute(): void {
 
     if (!this.fromLocation || !this.toLocation) {
       return;
     }
 
     this.directionsService.route(
-
       {
         origin: this.fromLocation,
-
         destination: this.toLocation,
-
         travelMode: google.maps.TravelMode.DRIVING
-
       },
 
-      async (result: any, status: any) => {
+      (result: any, status: any) => {
 
-        if (
-          status === google.maps.DirectionsStatus.OK
-        ) {
+        this.updateUI(() => {
+
+          if (
+            status !== google.maps.DirectionsStatus.OK
+          ) {
+
+            console.error('Directions error:', status);
+
+            this.errorMessage =
+              'Unable to calculate route. Please try another location.';
+
+            return;
+          }
 
           this.directionsRenderer.setDirections(result);
 
@@ -444,28 +502,19 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
           this.routeDuration =
             leg.duration?.text || '--';
 
-          // Set destination for automatic GPS completion.
+          this.errorMessage = '';
+
           this.tripService.setDestination(
             this.toLocation.lat,
             this.toLocation.lng,
             50
           );
 
-          // Start background tracking automatically.
           if (!this.isTracking && !this.trackingCompleted) {
-
-            await this.startBackgroundTracking();
-
+            void this.startBackgroundTracking();
           }
 
-        } else {
-
-          console.error('Directions error:', status);
-
-          this.errorMessage =
-            'Unable to calculate route. Please try another location.';
-
-        }
+        });
 
       }
 
@@ -474,28 +523,36 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Automatically start background tracking.
-  async startBackgroundTracking() {
+  async startBackgroundTracking(): Promise<void> {
 
     try {
 
-      this.loading = true;
+      this.updateUI(() => {
+        this.loading = true;
+        this.errorMessage = '';
+      });
 
       await this.tripService.startTrip();
 
-      this.trackingStarted = true;
-
-      this.trackingCompleted = false;
+      this.updateUI(() => {
+        this.trackingStarted = true;
+        this.trackingCompleted = false;
+      });
 
     } catch (error) {
 
       console.error('Background tracking error:', error);
 
-      this.errorMessage =
-        'Unable to start background GPS tracking.';
+      this.updateUI(() => {
+        this.errorMessage =
+          'Unable to start background GPS tracking.';
+      });
 
     } finally {
 
-      this.loading = false;
+      this.updateUI(() => {
+        this.loading = false;
+      });
 
     }
 
@@ -505,9 +562,9 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
   updateCurrentMarker(
     latitude: number,
     longitude: number
-  ) {
+  ): void {
 
-    if (!this.mapReady) {
+    if (!this.mapReady || !this.map) {
       return;
     }
 
@@ -520,7 +577,7 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
 
       this.currentMarker =
         new google.maps.Marker({
-          position: position,
+          position,
           map: this.map,
           title: 'Current Location',
           icon: {
@@ -542,7 +599,7 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Clear destination and route.
-  clearDestination() {
+  clearDestination(): void {
 
     if (this.isTracking) {
       return;
@@ -554,20 +611,22 @@ export class TripPage implements OnInit, AfterViewInit, OnDestroy {
     this.routeDistance = '--';
     this.routeDuration = '--';
 
-    this.directionsRenderer.setDirections({
-      routes: []
-    });
+    if (this.directionsRenderer) {
+      this.directionsRenderer.setDirections({
+        routes: []
+      });
+    }
 
     this.errorMessage = '';
 
+    this.cdr.detectChanges();
+
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
 
     this.distanceSubscription?.unsubscribe();
-
     this.trackingSubscription?.unsubscribe();
-
     this.locationSubscription?.unsubscribe();
 
     // Do not stop Background GPS here.

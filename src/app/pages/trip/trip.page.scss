@@ -1,7 +1,15 @@
 
+:host {
+  display: block;
+  color-scheme: light;
+}
+
 .trip-content {
-  --background: #101010;
+  --background: #f5f8fc !important;
+  --color: #202b3c !important;
   --padding-bottom: 30px;
+  background: #f5f8fc;
+  color: #202b3c;
 }
 
 .page-heading {
@@ -11,22 +19,22 @@
   padding: 28px 20px 20px;
 
   h1 {
-    color: #ffffff;
+    color: #202b3c;
     font-size: 30px;
     font-weight: 700;
     margin: 0 0 8px;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 14px;
     margin: 0;
   }
 }
 
 .current-location-btn {
-  --color: #ffffff;
-  --background: #252525;
+  --color: #2878ff;
+  --background: #e8f0ff;
   --border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -36,10 +44,17 @@
   }
 }
 
-// Location search card
+.location-card,
+.route-info-card,
+.tracking-status,
+.map-card,
+.gps-distance-card {
+  background: #ffffff;
+  border: 1px solid #e5eaf0;
+  box-shadow: 0 3px 12px rgba(30, 50, 80, 0.06);
+}
 
 .location-card {
-  background: #202020;
   border-radius: 22px;
   margin: 12px 16px 20px;
   padding: 12px 16px;
@@ -54,12 +69,12 @@
 
 .from-icon {
   font-size: 34px;
-  color: #35d878;
+  color: #16a34a;
 }
 
 .to-icon {
   font-size: 34px;
-  color: #ff5364;
+  color: #ef4444;
 }
 
 .location-input {
@@ -68,15 +83,16 @@
 
   ion-label {
     display: block;
-    color: #ffffff;
+    color: #202b3c;
     font-size: 17px;
     font-weight: 700;
     margin-bottom: 8px;
   }
 
   ion-input {
-    --color: #d9dce4;
-    --placeholder-color: #9299a5;
+    --color: #202b3c;
+    --placeholder-color: #94a3b8;
+    --placeholder-opacity: 1;
     --padding-start: 0;
     font-size: 15px;
   }
@@ -84,12 +100,12 @@
 
 .search-icon {
   font-size: 25px;
-  color: #dce1e9;
+  color: #64748b;
 }
 
 .location-divider {
   height: 1px;
-  background: #3a3a3a;
+  background: #e2e8f0;
   margin-left: 43px;
   position: relative;
 
@@ -98,17 +114,14 @@
     left: -24px;
     top: -15px;
     height: 30px;
-    border-left: 2px dashed #777777;
+    border-left: 2px dashed #94a3b8;
   }
 }
-
-// Distance and duration
 
 .route-info-card {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background: #202020;
   border-radius: 20px;
   margin: 0 16px 20px;
   padding: 24px 10px;
@@ -123,18 +136,18 @@
 
   ion-icon {
     font-size: 32px;
-    color: #5594ff;
+    color: #2878ff;
   }
 
   h2 {
-    color: #ffffff;
+    color: #202b3c;
     font-size: 19px;
     font-weight: 700;
     margin: 0 0 7px;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 13px;
     margin: 0;
   }
@@ -143,11 +156,9 @@
 .vertical-divider {
   height: 65px;
   width: 1px;
-  background: #505050;
+  background: #e2e8f0;
   margin: 0 10px;
 }
-
-// Tracking status
 
 .tracking-status {
   display: flex;
@@ -155,18 +166,17 @@
   gap: 13px;
   margin: 0 20px 20px;
   padding: 14px;
-  background: #202020;
   border-radius: 14px;
 
   h3 {
-    color: #ffffff;
+    color: #202b3c;
     font-size: 14px;
     font-weight: 600;
     margin: 0 0 5px;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 12px;
     margin: 0;
   }
@@ -176,23 +186,20 @@
   height: 12px;
   width: 12px;
   min-width: 12px;
-  background: #888888;
+  background: #94a3b8;
   border-radius: 50%;
 }
 
 .status-dot.active {
-  background: #32d875;
-  box-shadow: 0 0 10px #32d875;
+  background: #16a34a;
+  box-shadow: 0 0 10px rgba(22, 163, 74, 0.35);
 }
 
 .status-dot.completed {
-  background: #5594ff;
+  background: #2878ff;
 }
 
-// Map
-
 .map-card {
-  background: #202020;
   border-radius: 20px;
   margin: 0 16px 20px;
   overflow: hidden;
@@ -205,14 +212,14 @@
   padding: 16px 18px;
 
   h2 {
-    color: #ffffff;
+    color: #202b3c;
     font-size: 19px;
     font-weight: 700;
     margin: 0;
   }
 
   ion-icon {
-    color: #5594ff;
+    color: #2878ff;
     font-size: 24px;
   }
 }
@@ -221,7 +228,7 @@
   height: 360px;
   width: 100%;
   position: relative;
-  background: #292929;
+  background: #eaf0f7;
 }
 
 #tripMap {
@@ -236,20 +243,18 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #202020;
-  color: #ffffff;
+  background: #ffffff;
+  color: #202b3c;
 
   ion-spinner {
-    color: #5594ff;
+    color: #2878ff;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 13px;
   }
 }
-
-// Actual GPS distance
 
 .gps-distance-card {
   display: flex;
@@ -257,40 +262,37 @@
   gap: 16px;
   margin: 0 16px 20px;
   padding: 18px;
-  background: #202020;
   border-radius: 16px;
 
   ion-icon {
-    color: #5594ff;
+    color: #2878ff;
     font-size: 30px;
   }
 
   h3 {
-    color: #ffffff;
+    color: #202b3c;
     font-size: 18px;
     font-weight: 700;
     margin: 0 0 5px;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 13px;
     margin: 0;
   }
 }
-
-// Loading and errors
 
 .loading-container {
   text-align: center;
   padding: 15px;
 
   ion-spinner {
-    color: #5594ff;
+    color: #2878ff;
   }
 
   p {
-    color: #aeb6c4;
+    color: #64748b;
     font-size: 13px;
   }
 }
@@ -301,17 +303,18 @@
   gap: 10px;
   margin: 12px 16px;
   padding: 14px;
-  background: #352020;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
   border-radius: 12px;
 
   ion-icon {
-    color: #ff6262;
+    color: #e11d48;
     font-size: 24px;
     min-width: 24px;
   }
 
   p {
-    color: #ffaaaa;
+    color: #be123c;
     font-size: 13px;
     margin: 0;
   }

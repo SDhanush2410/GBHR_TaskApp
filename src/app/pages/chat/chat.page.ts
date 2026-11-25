@@ -1,5 +1,11 @@
 
-import { Component, ViewChild } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  NgZone,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { IonContent } from '@ionic/angular';
 
 import {
@@ -71,95 +77,133 @@ export class ChatPage {
 
   constructor(
     private employeeService: EmployeeService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // Called whenever the Chat page is opened.
   ionViewWillEnter() {
 
-    this.isLoading = true;
+    // Avoid creating duplicate authentication listeners.
+    this.authSubscription?.();
 
+    this.stopMessageListener();
+
+    this.isLoading = true;
     this.errorMessage = '';
 
     this.authSubscription = onAuthStateChanged(
       auth,
-      async (firebaseUser) => {
+      (firebaseUser) => {
 
-        // Firebase user is not logged in.
-        if (!firebaseUser) {
+        // Run Firebase authentication updates inside Angular.
+        this.ngZone.run(() => {
 
-          this.currentEmployee = null;
+          if (!firebaseUser) {
 
-          this.currentFirebaseUid = '';
+            this.stopMessageListener();
 
-          this.employees = [];
+            this.currentEmployee = null;
+            this.currentFirebaseUid = '';
 
-          this.selectedEmployee = null;
+            this.employees = [];
+            this.selectedEmployee = null;
 
-          this.isLoading = false;
+            this.messages = [];
+            this.currentChatId = '';
 
-          this.errorMessage = '';
+            this.isLoading = false;
 
-          return;
-        }
+            this.cdr.detectChanges();
 
-        // Firebase user is logged in.
-        this.currentFirebaseUid = firebaseUser.uid;
+            return;
+          }
 
-        console.log(
-          'Firebase authenticated:',
-          firebaseUser.email,
-          firebaseUser.uid
-        );
+          this.currentFirebaseUid = firebaseUser.uid;
 
-        await this.loadEmployeeDetails(firebaseUser.uid);
+          console.log(
+            'Firebase authenticated:',
+            firebaseUser.email,
+            firebaseUser.uid
+          );
+
+          this.isLoading = true;
+
+          this.cdr.detectChanges();
+
+          void this.loadEmployeeDetails(firebaseUser.uid);
+
+        });
 
       }
     );
 
   }
 
-  // Load the current employee from Firestore.
+  // Load current employee details from Firestore.
   async loadEmployeeDetails(uid: string) {
 
-    this.isLoading = true;
-
-    this.errorMessage = '';
+    this.ngZone.run(() => {
+      this.isLoading = true;
+      this.errorMessage = '';
+      this.cdr.detectChanges();
+    });
 
     try {
 
       const employee =
         await this.employeeService.getEmployeeByUid(uid);
 
-      if (!employee) {
+      this.ngZone.run(() => {
 
-        this.currentEmployee = null;
+        // Ignore outdated authentication results.
+        if (uid !== this.currentFirebaseUid) {
+          return;
+        }
 
-        this.errorMessage =
-          'Your Firebase account is not registered in the employee directory.';
+        if (!employee) {
 
-        return;
+          this.currentEmployee = null;
+
+          this.errorMessage =
+            'Your Firebase account is not registered in the employee directory.';
+
+          this.isLoading = false;
+
+          this.cdr.detectChanges();
+
+          return;
+        }
+
+        if (!employee.active) {
+
+          this.currentEmployee = null;
+
+          this.errorMessage =
+            'Your employee account is inactive. Please contact the administrator.';
+
+          this.isLoading = false;
+
+          this.cdr.detectChanges();
+
+          return;
+        }
+
+        this.currentEmployee = employee;
+
+        console.log(
+          'Current Firebase employee:',
+          this.currentEmployee
+        );
+
+        this.cdr.detectChanges();
+
+      });
+
+      if (employee?.active) {
+        await this.loadEmployees();
       }
-
-      if (!employee.active) {
-
-        this.currentEmployee = null;
-
-        this.errorMessage =
-          'Your employee account is inactive. Please contact the administrator.';
-
-        return;
-      }
-
-      this.currentEmployee = employee;
-
-      console.log(
-        'Current Firebase employee:',
-        this.currentEmployee
-      );
-
-      // Load other employees after current employee is confirmed.
-      await this.loadEmployees();
 
     } catch (error) {
 
@@ -168,12 +212,26 @@ export class ChatPage {
         error
       );
 
-      this.errorMessage =
-        'Unable to load your employee details. Please try again.';
+      this.ngZone.run(() => {
+
+        this.errorMessage =
+          'Unable to load your employee details. Please try again.';
+
+        this.cdr.detectChanges();
+
+      });
 
     } finally {
 
-      this.isLoading = false;
+      this.ngZone.run(() => {
+
+        if (uid === this.currentFirebaseUid) {
+          this.isLoading = false;
+        }
+
+        this.cdr.detectChanges();
+
+      });
 
     }
 
@@ -187,16 +245,21 @@ export class ChatPage {
       const result =
         await this.employeeService.getEmployees();
 
-      // Exclude the currently logged-in Firebase employee.
-      this.employees = result.filter(
-        employee =>
-          employee.id !== this.currentFirebaseUid
-      );
+      this.ngZone.run(() => {
 
-      console.log(
-        'Other employees:',
-        this.employees
-      );
+        this.employees = result.filter(
+          employee =>
+            employee.id !== this.currentFirebaseUid
+        );
+
+        console.log(
+          'Other employees:',
+          this.employees
+        );
+
+        this.cdr.detectChanges();
+
+      });
 
     } catch (error) {
 
@@ -205,8 +268,14 @@ export class ChatPage {
         error
       );
 
-      this.errorMessage =
-        'Unable to load employees. Please try again.';
+      this.ngZone.run(() => {
+
+        this.errorMessage =
+          'Unable to load employees. Please try again.';
+
+        this.cdr.detectChanges();
+
+      });
 
     }
 
@@ -264,20 +333,30 @@ export class ChatPage {
 
     this.currentChatId = '';
 
+    this.cdr.detectChanges();
+
     try {
 
-      this.currentChatId =
+      const chatId =
         await this.chatService.getOrCreateChat(
           this.currentFirebaseUid,
           employee.id
         );
 
-      console.log(
-        'Chat opened:',
-        this.currentChatId
-      );
+      this.ngZone.run(() => {
 
-      this.listenForMessages();
+        this.currentChatId = chatId;
+
+        console.log(
+          'Chat opened:',
+          this.currentChatId
+        );
+
+        this.cdr.detectChanges();
+
+        this.listenForMessages();
+
+      });
 
     } catch (error) {
 
@@ -286,19 +365,27 @@ export class ChatPage {
         error
       );
 
-      this.chatError =
-        'Unable to open this conversation. Check Firestore permissions.';
+      this.ngZone.run(() => {
+
+        this.chatError =
+          'Unable to open this conversation. Check Firestore permissions.';
+
+        this.cdr.detectChanges();
+
+      });
 
     }
 
   }
 
-  // Listen for incoming and outgoing messages.
+  // Listen for incoming and outgoing messages in real time.
   listenForMessages() {
 
     if (!this.currentChatId) {
       return;
     }
+
+    this.stopMessageListener();
 
     this.messageSubscription =
       this.chatService.subscribeToMessages(
@@ -307,21 +394,40 @@ export class ChatPage {
 
         (messages) => {
 
-          this.messages = messages;
+          // IMPORTANT:
+          // Firebase callback runs inside Angular NgZone.
+          this.ngZone.run(() => {
 
-          this.scrollToBottom();
+            this.messages = [...messages];
+
+            console.log(
+              'Real-time messages received:',
+              this.messages
+            );
+
+            this.cdr.detectChanges();
+
+            this.scrollToBottom();
+
+          });
 
         },
 
         (error) => {
 
-          console.error(
-            'Unable to receive messages:',
-            error
-          );
+          this.ngZone.run(() => {
 
-          this.chatError =
-            'Unable to receive messages. Please check your connection.';
+            console.error(
+              'Unable to receive messages:',
+              error
+            );
+
+            this.chatError =
+              'Unable to receive messages. Please check your connection.';
+
+            this.cdr.detectChanges();
+
+          });
 
         }
 
@@ -341,12 +447,14 @@ export class ChatPage {
       !this.currentFirebaseUid ||
       this.isSending
     ) {
-
       return;
-
     }
 
     this.isSending = true;
+
+    this.chatError = '';
+
+    this.cdr.detectChanges();
 
     try {
 
@@ -356,7 +464,21 @@ export class ChatPage {
         messageText
       );
 
-      this.newMessage = '';
+      this.ngZone.run(() => {
+
+        this.newMessage = '';
+
+        console.log(
+          'Message sent successfully:',
+          messageText
+        );
+
+        this.cdr.detectChanges();
+
+      });
+
+      // Firestore onSnapshot will update the messages.
+      // No manual message insertion is required.
 
     } catch (error) {
 
@@ -365,12 +487,24 @@ export class ChatPage {
         error
       );
 
-      this.chatError =
-        'Message could not be sent. Please try again.';
+      this.ngZone.run(() => {
+
+        this.chatError =
+          'Message could not be sent. Please try again.';
+
+        this.cdr.detectChanges();
+
+      });
 
     } finally {
 
-      this.isSending = false;
+      this.ngZone.run(() => {
+
+        this.isSending = false;
+
+        this.cdr.detectChanges();
+
+      });
 
     }
 
@@ -388,6 +522,8 @@ export class ChatPage {
     this.messages = [];
 
     this.chatError = '';
+
+    this.cdr.detectChanges();
 
   }
 
@@ -424,7 +560,11 @@ export class ChatPage {
 
     setTimeout(() => {
 
-      this.content?.scrollToBottom(300);
+      this.ngZone.run(() => {
+
+        this.content?.scrollToBottom(300);
+
+      });
 
     }, 100);
 
@@ -436,5 +576,71 @@ export class ChatPage {
     return message.senderId === this.currentFirebaseUid;
 
   }
+  getDateLabel(date: Date | null): string {
+
+  if (!date) return '';
+
+  const messageDate = new Date(date);
+  const today = new Date();
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const isSameDay = (d1: Date, d2: Date) => {
+
+    return (
+      d1.getDate() === d2.getDate() &&
+      d1.getMonth() === d2.getMonth() &&
+      d1.getFullYear() === d2.getFullYear()
+    );
+
+  };
+
+  if (isSameDay(messageDate, today)) {
+    return 'Today';
+  }
+
+  if (isSameDay(messageDate, yesterday)) {
+    return 'Yesterday';
+  }
+
+  return messageDate.toLocaleDateString('en-IN', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+
+}
+
+
+shouldShowDate(index: number): boolean {
+
+  if (index === 0) return true;
+
+  const currentDate = this.messages[index].createdAt;
+  const previousDate = this.messages[index - 1].createdAt;
+
+  if (!currentDate || !previousDate) return true;
+
+  return (
+    currentDate.getDate() !== previousDate.getDate() ||
+    currentDate.getMonth() !== previousDate.getMonth() ||
+    currentDate.getFullYear() !== previousDate.getFullYear()
+  );
+
+}
+
+
+formatMessageTime(date: Date | null): string {
+
+  if (!date) return '';
+
+  return new Date(date).toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  });
+
+}
 
 }

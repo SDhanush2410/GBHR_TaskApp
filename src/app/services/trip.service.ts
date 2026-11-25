@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 declare var BackgroundGeolocation: any;
@@ -24,16 +24,15 @@ export class TripService {
   private tripStartTime = 0;
 
   private destination: TripLocation | null = null;
-
-  // Stop tracking when within 50 metres.
   private destinationRadius = 0.05;
 
   distance$ = new BehaviorSubject<number>(0);
   tracking$ = new BehaviorSubject<boolean>(false);
   locations$ = new BehaviorSubject<TripLocation[]>([]);
 
-  async initialize() {
+  constructor(private ngZone: NgZone) {}
 
+  async initialize() {
     if (this.initialized) {
       return;
     }
@@ -43,42 +42,34 @@ export class TripService {
     }
 
     await BackgroundGeolocation.ready({
-
       reset: false,
       desiredAccuracy: 0,
       distanceFilter: 10,
-
       stopOnTerminate: false,
       startOnBoot: false,
-
       debug: false,
-
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-
-      // Android foreground-service notification.
-      // Required for background GPS tracking.
       notification: {
         title: 'TaskApp Location Tracking',
         text: 'Background location tracking is active'
       }
-
     });
 
     BackgroundGeolocation.onLocation(
       (location: any) => {
+        this.ngZone.run(() => {
+          if (!this.tracking) {
+            return;
+          }
 
-        if (!this.tracking) {
-          return;
-        }
+          const newLocation: TripLocation = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            timestamp: new Date(location.timestamp).getTime()
+          };
 
-        const newLocation: TripLocation = {
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          timestamp: new Date(location.timestamp).getTime()
-        };
-
-        this.addLocation(newLocation);
-
+          this.addLocation(newLocation);
+        });
       },
       (error: any) => {
         console.error('GPS error:', error);
@@ -89,7 +80,6 @@ export class TripService {
   }
 
   async getCurrentPosition(): Promise<TripLocation> {
-
     const location =
       await BackgroundGeolocation.getCurrentPosition({
         timeout: 30,
@@ -109,7 +99,6 @@ export class TripService {
     longitude: number,
     radiusInMeters: number = 50
   ) {
-
     this.destination = {
       latitude,
       longitude,
@@ -120,7 +109,6 @@ export class TripService {
   }
 
   async startTrip() {
-
     if (this.tracking) {
       return;
     }
@@ -129,29 +117,28 @@ export class TripService {
     this.distance = 0;
     this.completionInProgress = false;
 
-    this.locations$.next([]);
-    this.distance$.next(0);
+    this.ngZone.run(() => {
+      this.locations$.next([]);
+      this.distance$.next(0);
+    });
 
     const firstLocation = await this.getCurrentPosition();
 
-    this.locations.push(firstLocation);
+    this.ngZone.run(() => {
+      this.locations.push(firstLocation);
+      this.locations$.next([...this.locations]);
 
-    this.locations$.next([...this.locations]);
-
-    this.tripStartTime = Date.now();
-
-    this.tracking = true;
-    this.tracking$.next(true);
+      this.tripStartTime = Date.now();
+      this.tracking = true;
+      this.tracking$.next(true);
+    });
 
     await BackgroundGeolocation.start();
   }
 
   private addLocation(location: TripLocation) {
-
     if (this.locations.length > 0) {
-
-      const previous =
-        this.locations[this.locations.length - 1];
+      const previous = this.locations[this.locations.length - 1];
 
       const calculatedDistance = this.calculateDistance(
         previous.latitude,
@@ -166,17 +153,14 @@ export class TripService {
       }
 
       this.distance += calculatedDistance;
-
       this.distance$.next(this.distance);
     }
 
     this.locations.push(location);
-
     this.locations$.next([...this.locations]);
 
     // Automatically complete tracking at destination.
     if (this.destination && !this.completionInProgress) {
-
       const remainingDistance = this.calculateDistance(
         location.latitude,
         location.longitude,
@@ -185,13 +169,11 @@ export class TripService {
       );
 
       if (remainingDistance <= this.destinationRadius) {
-
         this.completionInProgress = true;
 
         this.endTrip().catch(error => {
           console.error('Automatic trip completion error:', error);
         });
-
       }
     }
   }
@@ -202,7 +184,6 @@ export class TripService {
     lat2: number,
     lon2: number
   ): number {
-
     const earthRadius = 6371;
 
     const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -223,13 +204,14 @@ export class TripService {
   }
 
   async endTrip() {
-
     if (!this.tracking) {
       return;
     }
 
-    this.tracking = false;
-    this.tracking$.next(false);
+    this.ngZone.run(() => {
+      this.tracking = false;
+      this.tracking$.next(false);
+    });
 
     await BackgroundGeolocation.stop();
   }
@@ -249,5 +231,4 @@ export class TripService {
   getTripStartTime() {
     return this.tripStartTime;
   }
-
 }

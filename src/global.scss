@@ -34,9 +34,65 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* ---------------------------------------
+   FORCE LIGHT MODE APPLICATION-WIDE
+--------------------------------------- */
 
-/* Note: These styles should be located in your global stylesheet */
+/* ---------------------------------------
+   FORCE LIGHT MODE APPLICATION-WIDE
+--------------------------------------- */
+
+:root,
+.ion-palette-dark {
+  color-scheme: light !important;
+
+  --ion-background-color: #ffffff;
+  --ion-background-color-rgb: 255, 255, 255;
+
+  --ion-text-color: #202b3c;
+  --ion-text-color-rgb: 32, 43, 60;
+
+  --ion-card-background: #ffffff;
+  --ion-item-background: #ffffff;
+
+  --ion-toolbar-background: #ffffff;
+  --ion-toolbar-color: #202b3c;
+
+  --ion-color-step-50: #f8fafc;
+  --ion-color-step-100: #f1f5f9;
+  --ion-color-step-150: #e5eaf0;
+  --ion-color-step-200: #dce2e9;
+}
+
+html,
+body,
+ion-app {
+  color-scheme: light !important;
+  background: #ffffff !important;
+  color: #202b3c;
+}
+
+/* Force Ionic page surfaces to use light colors */
+ion-content {
+  --background: #f5f8fc;
+  --color: #202b3c;
+}
+
+ion-toolbar,
+ion-header {
+  --background: #ffffff;
+  --color: #202b3c;
+}
+
+ion-card {
+  --background: #ffffff;
+  --color: #202b3c;
+}
+
+ion-item {
+  --background: #ffffff;
+  --color: #202b3c;
+}/* Note: These styles should be located in your global stylesheet */
 ion-action-sheet.my-custom-class .action-sheet-group {
   background: orangered;
 }

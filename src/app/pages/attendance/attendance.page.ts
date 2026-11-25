@@ -1,12 +1,14 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+
 import {
   AlertController,
   LoadingController
 } from '@ionic/angular/lazy';
+
 import { AttendanceNotificationService } from '../../services/attendance-notification.service';
+
 interface AttendanceRecord {
   id: number;
   employeeId: string;
@@ -16,6 +18,12 @@ interface AttendanceRecord {
   longitude: number;
   address: string;
   image: string;
+}
+
+interface AllowedLocation {
+  name: string;
+  latitude: number;
+  longitude: number;
 }
 
 @Component({
@@ -36,12 +44,33 @@ export class AttendancePage implements OnInit {
 
   currentAddress = 'Location not available';
 
+  // ---------------------------------------
+  // REGISTERED ATTENDANCE LOCATIONS
+  // ---------------------------------------
+
+  private readonly allowedLocations: AllowedLocation[] = [
+    {
+      name: 'Home',
+      latitude: 13.116563861897482,
+      longitude: 80.23882218385744
+    },
+    {
+      name: 'Office',
+      latitude: 13.052656966933386,
+      longitude: 80.250198586193
+    }
+  ];
+
+  // Allowed radius: 100 metres
+  private readonly allowedRadius = 100;
+
   constructor(
     private router: Router,
     private http: HttpClient,
     private alertController: AlertController,
     private loadingController: LoadingController,
-    private attendanceNotificationService: AttendanceNotificationService
+    private attendanceNotificationService: AttendanceNotificationService,
+    private ngZone: NgZone
   ) {}
 
   ngOnInit() {
@@ -68,19 +97,19 @@ export class AttendancePage implements OnInit {
     }
 
     try {
+
       this.user = JSON.parse(storedUser);
+
       this.loadAttendanceRecords();
 
     } catch (error) {
 
-      console.error(
-        'Unable to load employee details:',
-        error
-      );
+      console.error('Unable to load employee details:', error);
 
       this.router.navigate(['/login'], {
         replaceUrl: true
       });
+
     }
   }
 
@@ -104,7 +133,6 @@ export class AttendancePage implements OnInit {
 
     let imageData = image.trim();
 
-    // Identify the original image MIME type.
     const mimeMatch = imageData.match(
       /^data:(image\/[a-zA-Z0-9.+-]+);base64,/i
     );
@@ -113,7 +141,6 @@ export class AttendancePage implements OnInit {
       ? mimeMatch[1].toLowerCase()
       : 'image/jpeg';
 
-    // Remove all repeated image data URL prefixes.
     while (
       /^data:image\/[^;]+;base64,/i.test(imageData)
     ) {
@@ -123,14 +150,12 @@ export class AttendancePage implements OnInit {
       );
     }
 
-    // Remove unwanted whitespace.
     imageData = imageData.replace(/\s/g, '');
 
     if (!imageData) {
       return '';
     }
 
-    // Return exactly one valid data URL prefix.
     return `data:${mimeType};base64,${imageData}`;
   }
 
@@ -139,27 +164,24 @@ export class AttendancePage implements OnInit {
   // ---------------------------------------
 
   loadAttendanceRecords() {
+  if (!this.user?.EmployeeID) {
+    return;
+  }
 
-    if (!this.user?.EmployeeID) {
-      return;
-    }
+  const savedRecords = localStorage.getItem(this.storageKey);
 
-    const savedRecords = localStorage.getItem(
-      this.storageKey
-    );
+  try {
+    const parsedRecords = savedRecords
+      ? JSON.parse(savedRecords)
+      : [];
 
-    try {
-
-      const parsedRecords = savedRecords
-        ? JSON.parse(savedRecords)
-        : [];
-
+    this.ngZone.run(() => {
       if (!Array.isArray(parsedRecords)) {
         this.attendanceRecords = [];
+        this.currentAddress = 'Location not available';
         return;
       }
 
-      // Normalize every saved image.
       this.attendanceRecords = parsedRecords.map(
         (record: AttendanceRecord) => ({
           ...record,
@@ -167,45 +189,41 @@ export class AttendancePage implements OnInit {
         })
       );
 
-      // Sort newest attendance first.
       this.attendanceRecords.sort(
         (a, b) =>
           new Date(b.dateTime).getTime() -
           new Date(a.dateTime).getTime()
       );
 
-      // Save corrected image URLs and records.
-      localStorage.setItem(
-        this.storageKey,
-        JSON.stringify(this.attendanceRecords)
-      );
-
       if (this.attendanceRecords.length > 0) {
-
         this.currentAddress =
           this.attendanceRecords[0].address ||
           'Location not available';
-
       } else {
-
         this.currentAddress = 'Location not available';
       }
+    });
 
-      console.log(
-        'Attendance records loaded:',
-        this.attendanceRecords.length
-      );
+    // Keep the normalized records in storage.
+    localStorage.setItem(
+      this.storageKey,
+      JSON.stringify(this.attendanceRecords)
+    );
 
-    } catch (error) {
+    console.log(
+      'Attendance records loaded:',
+      this.attendanceRecords.length
+    );
 
-      console.error(
-        'Unable to load attendance history:',
-        error
-      );
+  } catch (error) {
+    console.error('Unable to load attendance history:', error);
 
+    this.ngZone.run(() => {
       this.attendanceRecords = [];
-    }
+      this.currentAddress = 'Location not available';
+    });
   }
+}
 
   // ---------------------------------------
   // GET TODAY'S RECORDS
@@ -238,7 +256,7 @@ export class AttendancePage implements OnInit {
   }
 
   // ---------------------------------------
-  // CHECK WHETHER ACTION IS ALLOWED
+  // CHECK NEXT ACTION
   // ---------------------------------------
 
   private isNextActionAllowed(
@@ -247,17 +265,14 @@ export class AttendancePage implements OnInit {
 
     const latestRecord = this.latestTodayRecord;
 
-    // First attendance action of the day.
     if (!latestRecord) {
       return type === 'Check-in';
     }
 
-    // After Check-in, only Check-out is allowed.
     if (latestRecord.type === 'Check-in') {
       return type === 'Check-out';
     }
 
-    // After Check-out, another Check-in is allowed.
     if (latestRecord.type === 'Check-out') {
       return type === 'Check-in';
     }
@@ -333,6 +348,81 @@ export class AttendancePage implements OnInit {
   }
 
   // ---------------------------------------
+  // CALCULATE DISTANCE BETWEEN LOCATIONS
+  // HAVERSINE FORMULA
+  // ---------------------------------------
+
+  private calculateDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number {
+
+    const earthRadius = 6371000;
+
+    const toRadians = (degree: number) => {
+      return degree * Math.PI / 180;
+    };
+
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRadians(lat1)) *
+      Math.cos(toRadians(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+
+    const c =
+      2 * Math.atan2(
+        Math.sqrt(a),
+        Math.sqrt(1 - a)
+      );
+
+    return earthRadius * c;
+  }
+
+  // ---------------------------------------
+  // VERIFY GPS AGAINST HOME / OFFICE
+  // ---------------------------------------
+
+  private verifyAllowedLocation(
+    latitude: number,
+    longitude: number
+  ): AllowedLocation | null {
+
+    console.log('Current latitude:', latitude);
+    console.log('Current longitude:', longitude);
+
+    for (const location of this.allowedLocations) {
+
+      const distance = this.calculateDistance(
+        latitude,
+        longitude,
+        location.latitude,
+        location.longitude
+      );
+
+      console.log(
+        `${location.name} distance: ${distance.toFixed(2)} metres`
+      );
+
+      if (distance <= this.allowedRadius) {
+
+        console.log(
+          `Location verified successfully: ${location.name}`
+        );
+
+        return location;
+      }
+    }
+
+    return null;
+  }
+
+  // ---------------------------------------
   // WAIT FOR CORDOVA CAMERA
   // ---------------------------------------
 
@@ -340,8 +430,7 @@ export class AttendancePage implements OnInit {
 
     return new Promise((resolve, reject) => {
 
-      const camera =
-        (window as any).navigator?.camera;
+      const camera = (window as any).navigator?.camera;
 
       if (
         camera &&
@@ -350,8 +439,6 @@ export class AttendancePage implements OnInit {
         resolve(camera);
         return;
       }
-
-      let timeoutId: any;
 
       const checkCamera = () => {
 
@@ -375,16 +462,11 @@ export class AttendancePage implements OnInit {
               'Camera plugin is not loaded. Please rebuild and reinstall the application.'
             )
           );
+
         }
       };
 
-      document.addEventListener(
-        'deviceready',
-        checkCamera,
-        { once: true }
-      );
-
-      timeoutId = setTimeout(() => {
+      const timeoutId = setTimeout(() => {
 
         document.removeEventListener(
           'deviceready',
@@ -399,11 +481,18 @@ export class AttendancePage implements OnInit {
 
       }, 15000);
 
+      document.addEventListener(
+        'deviceready',
+        checkCamera,
+        { once: true }
+      );
+
     });
   }
 
   // ---------------------------------------
-  // CAPTURE ATTENDANCE
+  // MAIN ATTENDANCE CAPTURE
+  // GPS VERIFICATION FIRST, CAMERA SECOND
   // ---------------------------------------
 
   async captureAttendance(
@@ -413,18 +502,6 @@ export class AttendancePage implements OnInit {
     if (this.isCapturing) {
       return;
     }
-// Check whether device Location is ON before attendance capture
-const locationEnabled =
-  await this.attendanceNotificationService.isLocationEnabled();
-
-if (!locationEnabled) {
-  await this.attendanceNotificationService.checkLocationStatus();
-  return;
-}
-    // IMPORTANT:
-    // Validate before setting isCapturing to true.
-    // Do not use canCheckIn/canCheckOut after changing
-    // isCapturing because those getters include that flag.
 
     if (!this.isNextActionAllowed(type)) {
 
@@ -438,42 +515,91 @@ if (!locationEnabled) {
       return;
     }
 
-    this.isCapturing = true;
+    this.ngZone.run(() => {
+  this.isCapturing = true;
+});
 
     let loading: HTMLIonLoadingElement | null = null;
 
     try {
 
       console.log('STEP 1: Attendance process started');
-      console.log('Attendance type:', type);
 
       loading = await this.loadingController.create({
-        message: 'Capturing attendance...',
-        spinner: 'crescent'
+        message: 'Verifying your GPS location...',
+        spinner: 'crescent',
+        backdropDismiss: false
       });
 
       await loading.present();
 
-      // STEP 1: Capture photograph.
-      const image = await this.capturePhoto();
+      // -----------------------------------
+      // STEP 1: CHECK DEVICE GPS
+      // -----------------------------------
 
-      if (!image) {
-        throw new Error('Attendance photograph is empty.');
+      const locationEnabled =
+        await this.attendanceNotificationService.isLocationEnabled();
+
+      if (!locationEnabled) {
+
+        await loading.dismiss();
+        loading = null;
+
+        await this.attendanceNotificationService.checkLocationStatus();
+
+        throw new Error(
+          'Please enable your device GPS location and try again.'
+        );
       }
 
-      console.log('STEP 2: Camera callback received');
-      console.log('Image length:', image.length);
-      console.log('Image prefix:', image.substring(0, 50));
+      // -----------------------------------
+      // STEP 2: GET CURRENT GPS LOCATION
+      // -----------------------------------
 
-      // STEP 2: Get current GPS location.
       const position = await this.getCurrentLocation();
-
-      console.log('STEP 3: Location received');
 
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
 
-      // STEP 3: Get address from GPS coordinates.
+      console.log('STEP 2: GPS received');
+
+      console.log('Latitude:', latitude);
+      console.log('Longitude:', longitude);
+      console.log('GPS accuracy:', position.coords.accuracy);
+
+      // -----------------------------------
+      // STEP 3: VERIFY HOME / OFFICE
+      // -----------------------------------
+
+      const verifiedLocation = this.verifyAllowedLocation(
+        latitude,
+        longitude
+      );
+
+      if (!verifiedLocation) {
+
+        throw new Error(
+          'Attendance denied!\n\n' +
+          'Your current GPS location does not match your registered Home or Office location.\n\n' +
+          'Please visit your registered location and try again.'
+        );
+
+      }
+
+      console.log(
+        'STEP 3: Location verified:',
+        verifiedLocation.name
+      );
+
+      // -----------------------------------
+      // STEP 4: GET CURRENT ADDRESS
+      // -----------------------------------
+
+      if (loading) {
+        await loading.dismiss();
+        loading = null;
+      }
+
       const address = await this.getAddress(
         latitude,
         longitude
@@ -481,7 +607,30 @@ if (!locationEnabled) {
 
       console.log('STEP 4: Address received:', address);
 
-      // STEP 4: Create attendance record.
+      // -----------------------------------
+      // STEP 5: ONLY NOW OPEN CAMERA
+      // -----------------------------------
+
+      loading = await this.loadingController.create({
+        message: 'Location verified. Opening camera...',
+        spinner: 'crescent',
+        backdropDismiss: false
+      });
+
+      await loading.present();
+
+      const image = await this.capturePhoto();
+
+      if (!image) {
+        throw new Error('Attendance photograph is empty.');
+      }
+
+      console.log('STEP 5: Photograph captured');
+
+      // -----------------------------------
+      // STEP 6: CREATE ATTENDANCE RECORD
+      // -----------------------------------
+
       const record: AttendanceRecord = {
 
         id: Date.now(),
@@ -498,52 +647,60 @@ if (!locationEnabled) {
 
         address: address,
 
-        // Store normalized image with one prefix.
         image: this.normalizeImage(image)
+
       };
 
-      // STEP 5: Add the latest record.
-      this.attendanceRecords.unshift(record);
+      // -----------------------------------
+      // STEP 7: SAVE RECORD
+      // -----------------------------------
 
-      // STEP 6: Save records in localStorage.
-      localStorage.setItem(
-        this.storageKey,
-        JSON.stringify(this.attendanceRecords)
-      );
+      // Update the UI immediately inside Angular's zone.
+this.ngZone.run(() => {
+  this.attendanceRecords = [
+    record,
+    ...this.attendanceRecords
+  ];
 
-      console.log('STEP 5: Attendance saved');
-      // STEP 6: Show attendance notification.
+  this.currentAddress = address;
+
+  // Save the updated list.
+  localStorage.setItem(
+    this.storageKey,
+    JSON.stringify(this.attendanceRecords)
+  );
+});
+
+console.log('Attendance record saved and UI updated.');
+
+      console.log('STEP 6: Attendance saved');
+
+      // -----------------------------------
+      // STEP 8: NOTIFICATION
+      // -----------------------------------
 
       if (type === 'Check-in') {
+
         await this.attendanceNotificationService.checkInSuccess();
-      } 
-      else {
+
+      } else {
+
         await this.attendanceNotificationService.checkOutSuccess();
+
       }
-      console.log(
-        'Saved record count:',
-        this.attendanceRecords.length
-      );
 
-      console.log(
-        'Saved image prefix:',
-        record.image.substring(0, 50)
-      );
+      // -----------------------------------
+      // STEP 9: SUCCESS MESSAGE
+      // -----------------------------------
 
-      this.currentAddress = address;
-
-      // STEP 7: Show success message.
       await this.showAlert(
         'Success',
-        `${type} completed successfully!`
+        `${type} completed successfully at ${verifiedLocation.name}!`
       );
 
     } catch (error: any) {
 
-      console.error(
-        'Attendance capture error:',
-        error
-      );
+      console.error('Attendance capture error:', error);
 
       await this.showAlert(
         'Attendance Failed',
@@ -552,20 +709,19 @@ if (!locationEnabled) {
       );
 
     } finally {
+  if (loading) {
+    await loading.dismiss().catch(() => {});
+  }
 
-      if (loading) {
-        await loading.dismiss().catch(() => {});
-      }
+  this.ngZone.run(() => {
+    this.isCapturing = false;
 
-      this.isCapturing = false;
+    // Reload the saved list and refresh the history.
+    this.loadAttendanceRecords();
+  });
 
-      // Refresh saved attendance history.
-      this.loadAttendanceRecords();
-
-      console.log(
-        'Attendance process completed.'
-      );
-    }
+  console.log('Attendance process completed.');
+}
   }
 
   // ---------------------------------------
@@ -591,8 +747,6 @@ if (!locationEnabled) {
             return;
           }
 
-          // Camera may return a complete DATA_URL
-          // or only the Base64 image data.
           const imageUrl = this.normalizeImage(imageData);
 
           if (!imageUrl.startsWith('data:image/')) {
@@ -610,6 +764,7 @@ if (!locationEnabled) {
           );
 
           resolve(imageUrl);
+
         },
 
         (error: any) => {
@@ -632,9 +787,11 @@ if (!locationEnabled) {
           ) {
 
             message = 'Camera capture was cancelled.';
+
           }
 
           reject(new Error(message));
+
         },
 
         {
@@ -667,7 +824,7 @@ if (!locationEnabled) {
 
         reject(
           new Error(
-            'Geolocation plugin is unavailable. Please check the Android application.'
+            'Geolocation is unavailable. Please check your Android application.'
           )
         );
 
@@ -684,8 +841,7 @@ if (!locationEnabled) {
 
           console.error('Location error:', error);
 
-          let message =
-            'Unable to get your current location.';
+          let message = 'Unable to get your current location.';
 
           if (error.code === error.PERMISSION_DENIED) {
 
@@ -703,9 +859,11 @@ if (!locationEnabled) {
 
             message =
               'Location request timed out. Please try again.';
+
           }
 
           reject(new Error(message));
+
         },
 
         {
@@ -746,12 +904,10 @@ if (!locationEnabled) {
 
         error: error => {
 
-          console.error(
-            'Address lookup failed:',
-            error
-          );
+          console.error('Address lookup failed:', error);
 
           resolve('Address not available');
+
         }
 
       });
@@ -786,16 +942,6 @@ if (!locationEnabled) {
 
       return;
     }
-
-    console.log(
-      'Selected image length:',
-      correctedImage.length
-    );
-
-    console.log(
-      'Selected image prefix:',
-      correctedImage.substring(0, 100)
-    );
 
     this.selectedImage = correctedImage;
   }
@@ -849,7 +995,7 @@ if (!locationEnabled) {
 
       header: header,
 
-      message: message,
+      message: message.replace(/\n/g, '<br>'),
 
       buttons: ['OK']
 

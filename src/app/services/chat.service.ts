@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import {
   addDoc,
@@ -28,13 +28,18 @@ export interface ChatMessage {
 })
 export class ChatService {
 
+  constructor(private ngZone: NgZone) {}
+
   // Create a unique conversation ID for two employees.
   async getOrCreateChat(
     currentUserId: string,
     otherUserId: string
   ): Promise<string> {
 
-    const participants = [currentUserId, otherUserId].sort();
+    const participants = [
+      currentUserId,
+      otherUserId
+    ].sort();
 
     const chatId = participants.join('_');
 
@@ -43,16 +48,18 @@ export class ChatService {
     const chatSnapshot = await getDoc(chatRef);
 
     if (!chatSnapshot.exists()) {
+
       await setDoc(chatRef, {
         participantIds: participants,
         createdAt: serverTimestamp()
       });
+
     }
 
     return chatId;
   }
 
-  // Listen for messages in real time.
+  // Listen for real-time messages.
   subscribeToMessages(
     chatId: string,
     callback: (messages: ChatMessage[]) => void,
@@ -74,33 +81,51 @@ export class ChatService {
     return onSnapshot(
       messagesQuery,
 
-      (snapshot) => {
+      snapshot => {
 
         const messages: ChatMessage[] = [];
 
-        snapshot.forEach((messageDoc) => {
+        snapshot.forEach(messageDoc => {
 
           const data = messageDoc.data();
 
           messages.push({
             id: messageDoc.id,
-            senderId: data['senderId'],
-            text: data['text'],
-            createdAt: data['createdAt']
-              ? data['createdAt'].toDate()
-              : null
+            senderId: data['senderId'] || '',
+            text: data['text'] || '',
+            createdAt: data['createdAt']?.toDate() || null
           });
 
         });
 
-        callback(messages);
+        console.log(
+          'Firestore snapshot updated:',
+          messages.length,
+          'messages'
+        );
+
+        // Always update the subscriber inside Angular.
+        this.ngZone.run(() => {
+          callback(messages);
+        });
+
       },
 
-      (error) => {
-        console.error('Message listener error:', error);
-        onError?.(error);
+      error => {
+
+        console.error(
+          'Firestore message listener error:',
+          error
+        );
+
+        this.ngZone.run(() => {
+          onError?.(error);
+        });
+
       }
+
     );
+
   }
 
   // Send a message.
@@ -124,9 +149,13 @@ export class ChatService {
     );
 
     await addDoc(messagesRef, {
-      senderId: senderId,
-      text: text,
+      senderId,
+      text,
       createdAt: serverTimestamp()
     });
+
+    console.log('Firestore message stored successfully');
+
   }
+
 }

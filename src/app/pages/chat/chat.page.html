@@ -28,7 +28,7 @@
       <div class="employee-avatar">
 
         {{
-          currentEmployee.firstName?.charAt(0) || '?'
+          currentEmployee.firstName.charAt(0) || '?'
         }}
 
       </div>
@@ -136,7 +136,7 @@
           <div class="employee-avatar">
 
             {{
-              employee.firstName?.charAt(0) || '?'
+              employee.firstName.charAt(0) || '?'
             }}
 
           </div>
@@ -208,7 +208,7 @@
         <div class="employee-avatar small-avatar">
 
           {{
-            selectedEmployee.firstName?.charAt(0) || '?'
+            selectedEmployee.firstName.charAt(0) || '?'
           }}
 
         </div>
@@ -238,25 +238,43 @@
       <!-- MESSAGES -->
       <div class="messages-area">
 
-        <div
-          class="message-row"
-          *ngFor="let message of messages"
-          [class.my-message-row]="isMyMessage(message)">
+        <ng-container
+          *ngFor="let message of messages; let i = index">
 
+          <!-- WHATSAPP DATE SEPARATOR -->
           <div
-            class="message-bubble"
-            [class.my-message]="isMyMessage(message)"
-            [class.other-message]="!isMyMessage(message)">
+            class="date-separator"
+            *ngIf="shouldShowDate(i)">
 
-            <p>{{ message.text }}</p>
-
-            <small>
-              {{ message.createdAt | date:'shortTime' }}
-            </small>
+            <span>
+              {{ getDateLabel(message.createdAt) }}
+            </span>
 
           </div>
 
-        </div>
+          <!-- MESSAGE ROW -->
+          <div
+            class="message-row"
+            [class.my-message-row]="isMyMessage(message)">
+
+            <div
+              class="message-bubble"
+              [class.my-message]="isMyMessage(message)"
+              [class.other-message]="!isMyMessage(message)">
+
+              <!-- MESSAGE TEXT -->
+              <p>{{ message.text }}</p>
+
+              <!-- MESSAGE TIME -->
+              <small class="message-time">
+                {{ formatMessageTime(message.createdAt) }}
+              </small>
+
+            </div>
+
+          </div>
+
+        </ng-container>
 
         <!-- EMPTY CHAT -->
         <div

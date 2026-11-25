@@ -497,24 +497,57 @@
     font-size: 11px;
   }
 }
+/* ---------------------------------------
+   FORCE ATTENDANCE PAGE LIGHT MODE
+--------------------------------------- */
 
-
-/* Dark Mode */
-:host-context(body.dark) {
-  .employee-avatar {
-    background: rgba(56, 128, 255, 0.16);
-    color: #75b7ff;
-  }
-
-  .action-item {
-    border-color: var(--ion-color-step-200);
-  }
-
-  .check-in-icon {
-    background: rgba(45, 190, 110, 0.16);
-  }
-
-  .check-out-icon {
-    background: rgba(235, 68, 90, 0.16);
-  }
+:host {
+  color-scheme: light;
 }
+
+.attendance-content {
+  --background: #f5f8fc;
+  --color: #202b3c;
+  background: #f5f8fc;
+  color: #202b3c;
+}
+
+.employee-card,
+.action-card,
+.location-card,
+.history-card,
+.empty-card {
+  --background: #ffffff;
+  background: #ffffff;
+  color: #202b3c;
+}
+
+.employee-details h2,
+.action-card ion-card-title,
+.action-item h3,
+.location-heading h3,
+.history-heading h2,
+.history-type h3,
+.history-detail-item p,
+.empty-card h3 {
+  color: #202b3c;
+}
+
+.image-preview-container {
+  background: #ffffff;
+  color: #202b3c;
+}
+
+.image-preview-header h3 {
+  color: #202b3c;
+}
+
+.action-item {
+  border-color: #e5eaf0;
+}
+
+.history-top,
+.history-footer {
+  border-color: #e5eaf0;
+}
+
