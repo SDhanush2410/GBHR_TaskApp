@@ -1,0 +1,199 @@
+
+<app-header></app-header>
+
+<ion-content [fullscreen]="true" class="reports-content">
+
+  <div class="reports-container">
+
+    <div class="page-heading">
+      <div>
+        <h1>IPL Players Report</h1>
+        <p>Manage player statistics and view performance analytics</p>
+      </div>
+
+      <div class="heading-actions">
+        <ion-button color="medium" fill="outline" (click)="resetData()">
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+          Reset Data
+        </ion-button>
+
+        <ion-button (click)="openAddForm()">
+          <ion-icon name="add-outline" slot="start"></ion-icon>
+          Add Player
+        </ion-button>
+      </div>
+    </div>
+
+    <div class="table-heading">
+      <div>
+        <h2>Player Statistics</h2>
+        <p>Players ranked by total IPL runs</p>
+      </div>
+
+      <ion-badge color="primary">{{ players.length }} Players</ion-badge>
+    </div>
+
+    <div class="table-card">
+      <div class="table-scroll">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Player Name</th>
+              <th>Matches</th>
+              <th>Total Runs</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let player of players">
+
+              <td>
+                <span class="rank-number" [class.first]="player.rank === 1">
+                  {{ player.rank }}
+                </span>
+              </td>
+
+              <td class="player-name">{{ player.name }}</td>
+
+              <td>{{ player.matches }}</td>
+
+              <td class="runs-value">
+                {{ player.runs | number }}
+              </td>
+
+              <td>
+                <div class="action-buttons">
+
+                  <ion-button
+                    size="small"
+                    fill="outline"
+                    color="primary"
+                    (click)="openEditForm(player)">
+                    <ion-icon name="create-outline" slot="start"></ion-icon>
+                    Edit
+                  </ion-button>
+
+                  <ion-button
+                    size="small"
+                    fill="clear"
+                    color="danger"
+                    (click)="deletePlayer(player.id)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                  </ion-button>
+
+                </div>
+              </td>
+
+            </tr>
+
+            <tr *ngIf="players.length === 0">
+              <td colspan="5" class="empty-message">
+                No player records available. Add a player to get started.
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <div class="view-report-section">
+      <ion-button
+        expand="block"
+        class="view-report-button"
+        routerLink="/report-analysis">
+
+        <ion-icon name="analytics-outline" slot="start"></ion-icon>
+        View Report
+        <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+
+      </ion-button>
+    </div>
+
+  </div>
+
+  <!-- ADD / EDIT PLAYER FORM -->
+
+  <div
+    class="modal-overlay"
+    *ngIf="showForm"
+    (click)="closeForm()">
+
+    <div
+      class="player-modal"
+      (click)="$event.stopPropagation()">
+
+      <div class="modal-heading">
+        <div>
+          <h2>{{ isEditing ? 'Edit Player' : 'Add New Player' }}</h2>
+          <p>Enter the player's IPL statistics</p>
+        </div>
+
+        <ion-button
+          fill="clear"
+          color="medium"
+          (click)="closeForm()">
+          <ion-icon name="close-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <form (ngSubmit)="savePlayer()">
+
+        <ion-item>
+          <ion-label position="stacked">Player Name</ion-label>
+          <ion-input
+            name="name"
+            [(ngModel)]="formData.name"
+            placeholder="Enter player name"
+            required>
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Matches Played</ion-label>
+          <ion-input
+            type="number"
+            name="matches"
+            [(ngModel)]="formData.matches"
+            min="0"
+            required>
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">Total Runs</ion-label>
+          <ion-input
+            type="number"
+            name="runs"
+            [(ngModel)]="formData.runs"
+            min="0"
+            required>
+          </ion-input>
+        </ion-item>
+
+        <div class="modal-actions">
+
+          <ion-button
+            fill="outline"
+            color="medium"
+            type="button"
+            (click)="closeForm()">
+            Cancel
+          </ion-button>
+
+          <ion-button type="submit">
+            {{ isEditing ? 'Save Changes' : 'Add Player' }}
+          </ion-button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</ion-content>

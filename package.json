@@ -28,6 +28,7 @@
     "@vladmandic/face-api": "^1.7.9",
     "bootstrap-icons": "^1.13.2",
     "buffer": "^6.0.3",
+    "chart.js": "^4.6.2",
     "firebase": "^13.4.0",
     "ionicons": "^8.1.0",
     "remixicon": "^4.9.1",

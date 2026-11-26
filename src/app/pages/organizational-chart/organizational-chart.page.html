@@ -1,0 +1,232 @@
+<app-header></app-header>
+<ion-content class="org-content">
+
+  <div class="org-container">
+
+    <!-- Page Heading -->
+    <div class="page-heading">
+      <div>
+        <p class="eyebrow">PEOPLE MANAGEMENT</p>
+        <h1>Organizational Hierarchy</h1>
+        <p class="subtitle">
+          Explore your company structure and employee reporting relationships.
+        </p>
+      </div>
+
+      <div class="heading-icon">
+        <ion-icon name="git-network-outline"></ion-icon>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon blue">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div>
+          <h2>{{ totalEmployees }}</h2>
+          <p>Total Employees</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon purple">
+          <ion-icon name="business-outline"></ion-icon>
+        </div>
+        <div>
+          <h2>{{ totalDepartments }}</h2>
+          <p>Departments</p>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon orange">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+        <div>
+          <h2>{{ totalTeamMembers }}</h2>
+          <p>Team Members</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Search -->
+    <div class="search-section">
+      <ion-searchbar
+        [(ngModel)]="searchText"
+        placeholder="Search employee, designation or ID..."
+        debounce="200"
+        class="org-search">
+      </ion-searchbar>
+    </div>
+
+    <!-- Organization Chart -->
+    <div class="chart-section">
+
+      <div class="section-heading">
+        <div>
+          <h2>Company Structure</h2>
+          <p>Reporting hierarchy across all departments</p>
+        </div>
+
+        <span class="structure-badge">
+          <ion-icon name="git-network-outline"></ion-icon>
+          Hierarchy View
+        </span>
+      </div>
+
+      <!-- Managing Director -->
+      <div class="top-hierarchy">
+
+        <div class="employee-card top-card">
+          <div class="avatar" [style.background]="managingDirector.color">
+            {{ managingDirector.initials }}
+          </div>
+
+          <div class="employee-details">
+            <h3>{{ managingDirector.name }}</h3>
+            <p>{{ managingDirector.designation }}</p>
+            <span>{{ managingDirector.employeeId }}</span>
+          </div>
+
+          <div class="top-label">TOP LEVEL</div>
+        </div>
+
+        <div class="connector vertical"></div>
+
+        <!-- General Manager -->
+        <div class="employee-card general-card">
+          <div class="avatar" [style.background]="generalManager.color">
+            {{ generalManager.initials }}
+          </div>
+
+          <div class="employee-details">
+            <h3>{{ generalManager.name }}</h3>
+            <p>{{ generalManager.designation }}</p>
+            <span>{{ generalManager.employeeId }}</span>
+          </div>
+        </div>
+
+        <div class="connector vertical"></div>
+
+        <div class="department-label">
+          <ion-icon name="git-branch-outline"></ion-icon>
+          Department Management
+        </div>
+
+      </div>
+
+      <!-- Department Cards -->
+      <div class="departments-grid">
+
+        <div
+          class="department-card"
+          *ngFor="let department of filteredDepartments">
+
+          <!-- Department Header -->
+          <div class="department-header"
+               [style.border-top-color]="department.color">
+
+            <div class="department-title">
+
+              <div class="department-icon"
+                   [style.background]="department.color">
+                <ion-icon [name]="department.icon"></ion-icon>
+              </div>
+
+              <div>
+                <h3>{{ department.name }}</h3>
+                <p>{{ department.members.length + 1 }} Employees</p>
+              </div>
+
+            </div>
+
+            <ion-button
+              fill="clear"
+              class="expand-button"
+              (click)="toggleDepartment(department)">
+
+              <ion-icon
+                [name]="department.expanded ? 'chevron-up-outline' : 'chevron-down-outline'">
+              </ion-icon>
+
+            </ion-button>
+
+          </div>
+
+          <!-- Department Manager -->
+          <div class="manager-section">
+
+            <div class="level-label">DEPARTMENT HEAD</div>
+
+            <div class="employee-card manager-card">
+
+              <div class="avatar"
+                   [style.background]="department.manager.color">
+                {{ department.manager.initials }}
+              </div>
+
+              <div class="employee-details">
+                <h3>{{ department.manager.name }}</h3>
+                <p>{{ department.manager.designation }}</p>
+                <span>{{ department.manager.employeeId }}</span>
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Team Members -->
+          <div class="team-section" *ngIf="department.expanded">
+
+            <div class="team-connector"></div>
+
+            <div class="level-label">TEAM MEMBERS</div>
+
+            <div class="employee-list">
+
+              <div
+                class="employee-card member-card"
+                *ngFor="let employee of department.members">
+
+                <div class="avatar small-avatar"
+                     [style.background]="employee.color">
+                  {{ employee.initials }}
+                </div>
+
+                <div class="employee-details">
+                  <h3>{{ employee.name }}</h3>
+                  <p>{{ employee.designation }}</p>
+                  <span>{{ employee.employeeId }}</span>
+                </div>
+
+              </div>
+
+              <div class="no-members"
+                   *ngIf="department.members.length === 0">
+                No matching team members.
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- No Search Results -->
+        <div class="empty-state" *ngIf="filteredDepartments.length === 0">
+          <ion-icon name="search-outline"></ion-icon>
+          <h3>No employees found</h3>
+          <p>Try searching with another employee name or ID.</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

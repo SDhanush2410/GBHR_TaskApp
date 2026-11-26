@@ -1,0 +1,162 @@
+
+<app-header></app-header>
+
+<ion-content class="analysis-content">
+
+  <div class="page-container">
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+
+      <div>
+        <h1>IPL Player Analysis</h1>
+        <p>Performance statistics and visual analysis of the top 20 players.</p>
+      </div>
+
+      <ion-button routerLink="/reports" color="primary">
+        <ion-icon name="arrow-back-outline" slot="start"></ion-icon>
+        Back to Reports
+      </ion-button>
+
+    </div>
+
+    <!-- STATISTICS CARDS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card blue">
+
+        <div class="stat-icon">
+          <ion-icon name="trophy-outline"></ion-icon>
+        </div>
+
+        <div>
+          <p>Total Runs</p>
+          <h2>{{ totalRuns | number }}</h2>
+        </div>
+
+      </div>
+
+      <div class="stat-card green">
+
+        <div class="stat-icon">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <div>
+          <p>Highest Run Scorer</p>
+          <h2>{{ highestScorer }}</h2>
+          <span>{{ highestRuns | number }} Runs</span>
+        </div>
+
+      </div>
+
+      <div class="stat-card orange">
+
+        <div class="stat-icon">
+          <ion-icon name="stats-chart-outline"></ion-icon>
+        </div>
+
+        <div>
+          <p>Total Matches</p>
+          <h2>{{ totalMatches | number }}</h2>
+        </div>
+
+      </div>
+
+      <div class="stat-card purple">
+
+        <div class="stat-icon">
+          <ion-icon name="analytics-outline"></ion-icon>
+        </div>
+
+        <div>
+          <p>Average Runs</p>
+          <h2>{{ averageRuns | number }}</h2>
+          <span>Per player</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="charts-grid">
+
+      <!-- TOP 10 RUN SCORERS -->
+
+      <div class="chart-card">
+
+        <div class="chart-heading">
+          <h2>Top 10 Run Scorers</h2>
+          <p>Comparison of total runs scored</p>
+        </div>
+
+        <div class="chart-container">
+          <canvas #runsChart></canvas>
+        </div>
+
+      </div>
+
+      <!-- MATCHES PLAYED -->
+
+      <div class="chart-card">
+
+        <div class="chart-heading">
+          <h2>Matches Played</h2>
+          <p>Matches played by the top 10 players</p>
+        </div>
+
+        <div class="chart-container">
+          <canvas #matchesChart></canvas>
+        </div>
+
+      </div>
+
+      <!-- RUN DISTRIBUTION -->
+
+      <div class="chart-card distribution-card">
+
+        <div class="chart-heading">
+          <h2>Top 5 Run Distribution</h2>
+          <p>Share of total runs among the top five players</p>
+        </div>
+
+        <div class="chart-container doughnut-container">
+          <canvas #distributionChart></canvas>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 4. PLAYER PERFORMANCE RANKING -->
+
+    <div class="ranking-chart-card">
+
+      <div class="ranking-chart-heading">
+
+        <div>
+          <h2>Player Performance Ranking</h2>
+          <p>Top five players by career runs</p>
+        </div>
+
+        <span class="ranking-label">
+          TOP 5
+        </span>
+
+      </div>
+
+      <div class="ranking-chart-container">
+
+        <canvas #rankingChart></canvas>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</ion-content>

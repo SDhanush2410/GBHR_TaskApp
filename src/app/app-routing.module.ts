@@ -69,10 +69,32 @@ const routes: Routes = [
       import('./pages/face-recognition/face-recognition.module')
         .then( m => m.FaceRecognitionPageModule)
   },
+
   {
+    path: 'reports',
+    loadChildren: () => 
+      import('./pages/reports/reports.module')
+        .then( m => m.ReportsPageModule)
+  },
+  {
+    path: 'report-analysis',
+    loadChildren: () => 
+      import('./pages/report-analysis/report-analysis.module')
+        .then( m => m.ReportAnalysisPageModule)
+  },
+
+  {
+    path: 'organizational-chart',
+    loadChildren: () =>
+       import('./pages/organizational-chart/organizational-chart.module')
+        .then( m => m.OrganizationalChartPageModule)
+  },
+    {
     path: '**',
     redirectTo: 'login'
   }
+  
+
 ];
 
 @NgModule({
