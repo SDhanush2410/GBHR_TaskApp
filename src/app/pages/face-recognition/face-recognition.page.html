@@ -1,0 +1,273 @@
+
+<app-header></app-header>
+
+<ion-content class="face-recognition-content">
+
+  <!-- PAGE HEADING -->
+  <div class="page-heading">
+    <h1>Face Recognition</h1>
+    <p>Verify employee identity using live facial recognition.</p>
+  </div>
+
+  <!-- EMPLOYEE PROFILE -->
+  <ion-card class="employee-card">
+    <ion-card-content>
+
+      <div class="employee-info">
+
+        <div class="employee-avatar">
+          <ion-icon name="person-outline"></ion-icon>
+        </div>
+
+        <div class="employee-details">
+          <h2>{{ employeeName }}</h2>
+
+          <p>
+            Employee ID:
+            <strong>{{ employeeId }}</strong>
+          </p>
+
+          <ion-badge color="primary">
+            Face Verification
+          </ion-badge>
+        </div>
+
+        <!-- ONLY PROFILE VERIFICATION STATUS -->
+        <div class="profile-verification" *ngIf="resultStatus">
+
+          <ion-badge
+            *ngIf="resultStatus === 'Verified'"
+            color="success">
+
+            <ion-icon name="checkmark-circle"></ion-icon>
+            Verified
+
+          </ion-badge>
+
+          <ion-badge
+            *ngIf="resultStatus === 'Not Verified'"
+            color="danger">
+
+            <ion-icon name="close-circle"></ion-icon>
+            Not Verified
+
+          </ion-badge>
+
+          <ion-badge
+            *ngIf="resultStatus === 'Verification Failed'"
+            color="danger">
+
+            <ion-icon name="alert-circle"></ion-icon>
+            Verification Failed
+
+          </ion-badge>
+
+        </div>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- AI MODEL STATUS -->
+  <ion-card class="model-card">
+    <ion-card-content>
+
+      <div class="model-status">
+
+        <ion-icon
+          name="hardware-chip-outline"
+          color="primary">
+        </ion-icon>
+
+        <div class="model-details">
+
+          <h3>AI Recognition Engine</h3>
+
+          <p *ngIf="!modelsLoaded && !isLoadingModels">
+            Models will load when verification starts.
+          </p>
+
+          <p *ngIf="isLoadingModels">
+            Loading AI models. Please wait...
+          </p>
+
+          <p *ngIf="modelsLoaded">
+            All recognition models loaded successfully.
+          </p>
+
+        </div>
+
+        <ion-badge
+          [color]="modelsLoaded ? 'success' :
+                   isLoadingModels ? 'warning' : 'medium'">
+
+          {{ modelsLoaded ? 'Ready' :
+             isLoadingModels ? 'Loading' : 'Not Loaded' }}
+
+        </ion-badge>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- SELFIE VERIFICATION -->
+  <div class="section-heading">
+
+    <h2>Live Selfie Verification</h2>
+
+    <p>
+      Follow the instructions and slowly move your head
+      to both sides to verify your identity.
+    </p>
+
+  </div>
+
+  <ion-card class="camera-card">
+    <ion-card-content>
+
+      <!-- LIVE CAMERA -->
+      <div class="live-camera-container" *ngIf="isScanning">
+
+        <video
+          #liveVideo
+          class="live-video"
+          autoplay
+          muted
+          playsinline>
+        </video>
+
+        <div class="camera-overlay">
+          <div class="face-guide"></div>
+        </div>
+
+        <div class="live-camera-status">
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>Live face scanning</span>
+        </div>
+
+        <div class="scan-instruction">
+          <ion-icon name="scan-outline"></ion-icon>
+          <h3>{{ scanInstruction }}</h3>
+        </div>
+
+      </div>
+
+      <!-- CAMERA PLACEHOLDER -->
+      <div class="camera-placeholder" *ngIf="!isScanning">
+
+        <div class="camera-icon">
+          <ion-icon name="camera-outline"></ion-icon>
+        </div>
+
+        <h2>Live Front Camera Verification</h2>
+
+        <p>
+          Start verification to open your front camera.
+          Follow the on-screen instructions to complete
+          your face verification.
+        </p>
+
+        <div class="camera-tips">
+
+          <div>
+            <ion-icon name="sunny-outline"></ion-icon>
+            Ensure sufficient lighting
+          </div>
+
+          <div>
+            <ion-icon name="person-outline"></ion-icon>
+            Keep only your face visible
+          </div>
+
+          <div>
+            <ion-icon name="swap-horizontal-outline"></ion-icon>
+            Move your head to both sides
+          </div>
+
+        </div>
+
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- VERIFICATION ERROR -->
+  <ion-card
+    class="error-card"
+    *ngIf="resultStatus === 'Verification Failed' && errorMessage">
+
+    <ion-card-content>
+
+      <div class="result-heading">
+
+        <ion-icon
+          name="alert-circle-outline"
+          color="danger">
+        </ion-icon>
+
+        <h3>Verification Failed</h3>
+
+      </div>
+
+      <p>{{ errorMessage }}</p>
+
+    </ion-card-content>
+  </ion-card>
+
+  <!-- ACTION BUTTONS -->
+  <div class="verification-actions">
+
+    <ion-button
+      expand="block"
+      color="primary"
+      class="verify-button"
+      [disabled]="isScanning || isLoadingModels"
+      (click)="verifyFace()">
+
+      <ion-spinner
+        *ngIf="isScanning || isLoadingModels"
+        name="crescent">
+      </ion-spinner>
+
+      <ion-icon
+        *ngIf="!isScanning && !isLoadingModels"
+        name="scan-outline"
+        slot="start">
+      </ion-icon>
+
+      {{ isLoadingModels ? 'Loading AI Models...' :
+         isScanning ? 'Verifying Face...' :
+         'Start Face Verification' }}
+
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      fill="outline"
+      color="medium"
+      [disabled]="isScanning"
+      (click)="resetAll()">
+
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Reset
+
+    </ion-button>
+
+  </div>
+
+  <!-- PRIVACY NOTE -->
+  <div class="privacy-note">
+
+    <ion-icon name="shield-checkmark-outline"></ion-icon>
+
+    <p>
+      Face comparison is performed locally on your device.
+      The live camera frames are processed in the application
+      and are not uploaded to a server by this page.
+    </p>
+
+  </div>
+
+</ion-content>

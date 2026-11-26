@@ -64,12 +64,15 @@ const routes: Routes = [
         .then( m => m.FirebaseTestLoginPageModule)
   },
   {
+    path: 'face-recognition',
+    loadChildren: () => 
+      import('./pages/face-recognition/face-recognition.module')
+        .then( m => m.FaceRecognitionPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login'
-  },
-
-  
-  
+  }
 ];
 
 @NgModule({
