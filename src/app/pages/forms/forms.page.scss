@@ -1,0 +1,631 @@
+
+.forms-content {
+  --background: #f3f6fb;
+}
+
+.forms-container {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 28px 32px 40px;
+}
+
+/* Page Heading */
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+
+  h1 {
+    color: #263445;
+    font-size: 27px;
+    font-weight: 650;
+    margin: 0 0 7px;
+  }
+
+  p {
+    color: #7b8796;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.employee-count {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #e5efff;
+  color: #0756c9;
+  border-radius: 20px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+
+  ion-icon {
+    font-size: 18px;
+  }
+}
+
+/* Registration Form Card */
+
+.form-card {
+  background: #ffffff;
+  border: 1px solid #e7ebf1;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 4px 15px rgba(25, 55, 90, 0.05);
+}
+
+/* Form Sections */
+
+.form-section {
+  margin-bottom: 30px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #edf0f5;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+
+  > ion-icon {
+    width: 40px;
+    height: 40px;
+    padding: 9px;
+    border-radius: 10px;
+    background: #eaf2ff;
+    color: #0756c9;
+    font-size: 22px;
+    box-sizing: border-box;
+  }
+
+  h2 {
+    color: #263445;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 5px;
+  }
+
+  p {
+    color: #8793a3;
+    font-size: 12px;
+    margin: 0;
+  }
+}
+
+/* Form Grid */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 24px;
+  row-gap: 20px;
+}
+
+.form-group {
+  min-width: 0;
+
+  label {
+    display: block;
+    color: #3d4a5b;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  label span {
+    color: #e53935;
+  }
+
+  ion-input,
+  ion-textarea {
+    --background: #ffffff;
+    --color: #263445;
+    --placeholder-color: #9aa5b3;
+    --padding-start: 13px;
+    --padding-end: 13px;
+    border: 1px solid #dce3ed;
+    border-radius: 8px;
+    font-size: 13px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  ion-input {
+    min-height: 45px;
+  }
+
+  ion-textarea {
+    min-height: 95px;
+  }
+
+  ion-input.has-focus,
+  ion-textarea.has-focus {
+    border-color: #1765df;
+    box-shadow: 0 0 0 2px rgba(23, 101, 223, 0.08);
+  }
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Validation Messages */
+
+.error {
+  display: block;
+  color: #e53935;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+/* Form Messages */
+
+.form-message {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-top: 18px;
+  font-size: 13px;
+
+  ion-icon {
+    font-size: 19px;
+    flex-shrink: 0;
+  }
+}
+
+.success-message {
+  color: #16834a;
+  background: #e9f8ef;
+}
+
+.error-message {
+  color: #d32f2f;
+  background: #fff0f0;
+}
+
+/* Form Actions */
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #edf0f5;
+  padding-top: 22px;
+  margin-top: 25px;
+
+  ion-button {
+    min-height: 43px;
+    font-size: 13px;
+    font-weight: 600;
+    --border-radius: 8px;
+  }
+}
+
+/* Registered Employees */
+
+.registered-section {
+  margin-top: 35px;
+  padding-bottom: 30px;
+}
+
+.registered-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 23px;
+    font-weight: 600;
+    color: #263445;
+    margin: 0 0 7px;
+  }
+
+  p {
+    color: #788493;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.total-count {
+  background: #e5efff;
+  color: #0756c9;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Employee Card Grid */
+
+.employee-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+/* Employee Card */
+
+.employee-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: #ffffff;
+  border: 1px solid #e5eaf1;
+  border-radius: 13px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(25, 55, 90, 0.07);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  min-width: 0;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(25, 55, 90, 0.12);
+  }
+}
+
+.employee-card-header {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Employee Avatar */
+
+.employee-avatar {
+  width: 55px;
+  height: 55px;
+  min-width: 55px;
+  flex: 0 0 55px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #dceaff, #b8d4ff);
+  color: #0756c9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* Employee Name and ID */
+
+.employee-card-name {
+  min-width: 0;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #263445;
+    margin: 0 0 7px;
+    overflow-wrap: anywhere;
+  }
+
+  p {
+    font-size: 13px;
+    color: #7c8796;
+    margin: 0;
+  }
+}
+
+/* View, Edit and Delete Icons */
+
+.employee-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+
+  ion-button {
+    margin: 0;
+    --padding-start: 7px;
+    --padding-end: 7px;
+    --padding-top: 7px;
+    --padding-bottom: 7px;
+    font-size: 19px;
+  }
+}
+
+/* Empty State */
+
+.empty-state {
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 14px;
+  padding: 45px 20px;
+  text-align: center;
+
+  ion-icon {
+    font-size: 45px;
+    color: #9aacc3;
+  }
+
+  h3 {
+    font-size: 18px;
+    color: #344256;
+    margin: 12px 0 8px;
+  }
+
+  p {
+    font-size: 14px;
+    color: #8793a3;
+    margin: 0;
+  }
+}
+
+/* Employee Details Modal */
+
+.employee-modal-content {
+  --background: #f4f7fc;
+}
+
+.employee-modal-container {
+  max-width: 750px;
+  margin: 0 auto;
+  padding: 22px 18px 35px;
+}
+
+/* Modal Profile */
+
+.modal-profile {
+  text-align: center;
+  background: #ffffff;
+  padding: 25px 15px;
+  border-radius: 14px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 21px;
+    color: #263445;
+    margin: 12px 0 6px;
+  }
+
+  p {
+    color: #66758a;
+    font-size: 14px;
+    margin: 5px 0;
+  }
+
+  span {
+    display: inline-block;
+    background: #eaf2ff;
+    color: #0756c9;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-top: 7px;
+  }
+}
+
+.modal-avatar {
+  margin: 0 auto;
+  width: 70px;
+  height: 70px;
+  min-width: 70px;
+  flex-basis: 70px;
+  font-size: 23px;
+}
+
+/* Modal Detail Sections */
+
+.modal-detail-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0756c9;
+    padding-bottom: 13px;
+    margin: 0 0 5px;
+    border-bottom: 1px solid #edf0f5;
+  }
+
+  h3 ion-icon {
+    font-size: 19px;
+  }
+}
+
+.modal-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 11px 0;
+  border-bottom: 1px solid #f0f2f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  span {
+    color: #778394;
+    font-size: 13px;
+    flex: 0 0 40%;
+  }
+
+  strong {
+    color: #303d4d;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: right;
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Modal Close Button */
+
+.employee-modal-container > ion-button {
+  margin-top: 10px;
+  --border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Tablet */
+
+@media (max-width: 900px) {
+  .employee-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .forms-container {
+    padding: 22px;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 576px) {
+  .forms-container {
+    padding: 16px;
+  }
+
+  .page-heading {
+    align-items: flex-start;
+
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  .form-card {
+    padding: 17px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    row-gap: 17px;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+
+    ion-button {
+      width: 100%;
+      margin: 0;
+    }
+  }
+
+  .registered-heading {
+    align-items: flex-start;
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  .employee-card {
+    padding: 14px 12px;
+    gap: 5px;
+  }
+
+  .employee-avatar {
+    width: 45px;
+    height: 45px;
+    min-width: 45px;
+    flex-basis: 45px;
+    font-size: 16px;
+  }
+
+  .employee-card-name h3 {
+    font-size: 14px;
+  }
+
+  .employee-card-actions {
+    gap: 0;
+
+    ion-button {
+      --padding-start: 4px;
+      --padding-end: 4px;
+      font-size: 17px;
+    }
+  }
+
+  .modal-detail-row {
+    gap: 8px;
+
+    span,
+    strong {
+      font-size: 12px;
+    }
+  }
+}
+
+/* Loading Overlay */
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(245, 248, 253, 0.82);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+.loading-box {
+  width: 220px;
+  padding: 28px 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+  border-radius: 16px;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.loading-box ion-spinner {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 16px;
+}
+
+.loading-box h3 {
+  margin: 0;
+  color: #263b59;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.loading-box p {
+  margin: 8px 0 0;
+  color: #7b8798;
+  font-size: 13px;
+}

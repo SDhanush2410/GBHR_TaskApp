@@ -54,11 +54,19 @@
         <ion-icon name="scan-outline" slot="start"></ion-icon>
         <ion-label>Face-Recognition</ion-label>
       </ion-item>
+
+      <!-- Forms Menu -->
+      <ion-item button (click)="navigateTo('/forms')">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-label>Forms</ion-label>
+      </ion-item>
+
            <!-- Organizational Chart Menu -->
-        <ion-item button (click)="navigateTo('/organizational-chart')">
-          <ion-icon name="git-network-outline" slot="start"></ion-icon>
-          <ion-label>Organizational Chart</ion-label>
-        </ion-item>
+      <ion-item button (click)="navigateTo('/organizational-chart')">
+        <ion-icon name="git-network-outline" slot="start"></ion-icon>
+        <ion-label>Organizational Chart</ion-label>
+      </ion-item>
+
       <!-- Components Menu -->
       <ion-item button (click)="navigateTo('/component')">
         <ion-icon name="code-slash-outline" slot="start"></ion-icon>

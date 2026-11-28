@@ -1,0 +1,790 @@
+
+<app-header></app-header>
+
+<ion-content class="forms-content">
+<!-- Loading Overlay -->
+<div class="loading-overlay" *ngIf="isLoading">
+
+  <div class="loading-box">
+
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+
+    <h3>{{ loadingMessage }}</h3>
+
+    <p>Please wait...</p>
+
+  </div>
+
+</div>
+  <div class="forms-container">
+
+    <!-- Page Heading -->
+    <div class="page-heading">
+      <div>
+        <h1>Employee Registration</h1>
+        <p>Enter employee details to register a new employee</p>
+      </div>
+
+      <div class="employee-count">
+        <ion-icon name="people-outline"></ion-icon>
+        <span>{{ employees.length }} Employees</span>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="form-card">
+
+      <form
+        #employeeForm="ngForm"
+        (ngSubmit)="registerEmployee(employeeForm)"
+        novalidate>
+
+        <!-- Personal Information -->
+        <div class="form-section">
+
+          <div class="section-title">
+            <ion-icon name="person-outline"></ion-icon>
+            <div>
+              <h2>Personal Information</h2>
+              <p>Enter basic employee information</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>First Name <span>*</span></label>
+              <ion-input
+                type="text"
+                name="firstName"
+                [(ngModel)]="employee.firstName"
+                placeholder="Enter First Name"
+                required
+                maxlength="40"
+                pattern="[A-Za-z ]+"
+                #firstName="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && firstName.errors?.['required']">
+                First Name is required.
+              </small>
+              <small class="error" *ngIf="submitted && firstName.errors?.['pattern']">
+                Only letters and spaces are allowed.
+              </small>
+              <small class="error" *ngIf="submitted && firstName.errors?.['maxlength']">
+                Maximum 40 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Middle Name</label>
+              <ion-input
+                type="text"
+                name="middleName"
+                [(ngModel)]="employee.middleName"
+                placeholder="Enter Middle Name"
+                maxlength="40"
+                pattern="[A-Za-z ]*"
+                #middleName="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && middleName.errors?.['pattern']">
+                Only letters and spaces are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Last Name <span>*</span></label>
+              <ion-input
+                type="text"
+                name="lastName"
+                [(ngModel)]="employee.lastName"
+                placeholder="Enter Last Name"
+                required
+                maxlength="40"
+                pattern="[A-Za-z ]+"
+                #lastName="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && lastName.errors?.['required']">
+                Last Name is required.
+              </small>
+              <small class="error" *ngIf="submitted && lastName.errors?.['pattern']">
+                Only letters and spaces are allowed.
+              </small>
+              <small class="error" *ngIf="submitted && lastName.errors?.['maxlength']">
+                Maximum 40 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Employee Code <span>*</span></label>
+              <ion-input
+                type="text"
+                name="employeeCode"
+                [(ngModel)]="employee.employeeCode"
+                placeholder="Enter Employee Code"
+                required
+                minlength="2"
+                maxlength="20"
+                #employeeCode="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && employeeCode.errors?.['required']">
+                Employee Code is required.
+              </small>
+              <small class="error" *ngIf="submitted && employeeCode.errors?.['minlength']">
+                Employee Code must contain at least 2 characters.
+              </small>
+              <small class="error" *ngIf="submitted && employeeCode.errors?.['maxlength']">
+                Maximum 20 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Employee ID <span>*</span></label>
+              <ion-input
+                type="text"
+                name="employeeId"
+                [(ngModel)]="employee.employeeId"
+                placeholder="Enter Employee ID"
+                required
+                maxlength="20"
+                #employeeId="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && employeeId.errors?.['required']">
+                Employee ID is required.
+              </small>
+              <small class="error" *ngIf="submitted && employeeId.errors?.['maxlength']">
+                Maximum 20 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Company ID <span>*</span></label>
+              <ion-input
+                type="text"
+                name="companyId"
+                [(ngModel)]="employee.companyId"
+                placeholder="Enter Company ID"
+                required
+                maxlength="20"
+                #companyId="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && companyId.errors?.['required']">
+                Company ID is required.
+              </small>
+              <small class="error" *ngIf="submitted && companyId.errors?.['maxlength']">
+                Maximum 20 characters are allowed.
+              </small>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Address Information -->
+        <div class="form-section">
+
+          <div class="section-title">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <h2>Address Information</h2>
+              <p>Enter employee address details</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group full-width">
+              <label>Current Address <span>*</span></label>
+              <ion-textarea
+                name="currentAddress"
+                [(ngModel)]="employee.currentAddress"
+                placeholder="Enter Current Address"
+                required
+                maxlength="300"
+                rows="3"
+                #currentAddress="ngModel">
+              </ion-textarea>
+              <small class="error" *ngIf="submitted && currentAddress.errors?.['required']">
+                Current Address is required.
+              </small>
+              <small class="error" *ngIf="submitted && currentAddress.errors?.['maxlength']">
+                Maximum 300 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group full-width">
+              <label>Permanent Address <span>*</span></label>
+              <ion-textarea
+                name="permanentAddress"
+                [(ngModel)]="employee.permanentAddress"
+                placeholder="Enter Permanent Address"
+                required
+                maxlength="300"
+                rows="3"
+                #permanentAddress="ngModel">
+              </ion-textarea>
+              <small class="error" *ngIf="submitted && permanentAddress.errors?.['required']">
+                Permanent Address is required.
+              </small>
+              <small class="error" *ngIf="submitted && permanentAddress.errors?.['maxlength']">
+                Maximum 300 characters are allowed.
+              </small>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="form-section">
+
+          <div class="section-title">
+            <ion-icon name="call-outline"></ion-icon>
+            <div>
+              <h2>Contact Information</h2>
+              <p>Enter employee contact details</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Official Email <span>*</span></label>
+              <ion-input
+                type="email"
+                name="officialEmail"
+                [(ngModel)]="employee.officialEmail"
+                placeholder="Enter Official Email"
+                required
+                email
+                #officialEmail="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && officialEmail.errors?.['required']">
+                Official Email is required.
+              </small>
+              <small class="error" *ngIf="submitted && officialEmail.errors?.['email']">
+                Enter a valid email address.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Official Mobile <span>*</span></label>
+              <ion-input
+                type="tel"
+                inputmode="numeric"
+                name="officialMobile"
+                [(ngModel)]="employee.officialMobile"
+                placeholder="Enter 10-digit Mobile Number"
+                required
+                pattern="[0-9]{10}"
+                maxlength="10"
+                #officialMobile="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && officialMobile.errors?.['required']">
+                Official Mobile is required.
+              </small>
+              <small class="error" *ngIf="submitted && officialMobile.errors?.['pattern']">
+                Enter a valid 10-digit mobile number.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Personal Email</label>
+              <ion-input
+                type="email"
+                name="personalEmail"
+                [(ngModel)]="employee.personalEmail"
+                placeholder="Enter Personal Email"
+                email
+                #personalEmail="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && personalEmail.errors?.['email']">
+                Enter a valid personal email address.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Personal Mobile</label>
+              <ion-input
+                type="tel"
+                inputmode="numeric"
+                name="personalMobile"
+                [(ngModel)]="employee.personalMobile"
+                placeholder="Enter 10-digit Mobile Number"
+                pattern="[0-9]{10}"
+                maxlength="10"
+                #personalMobile="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && personalMobile.errors?.['pattern']">
+                Enter a valid 10-digit mobile number.
+              </small>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Bank Details -->
+        <div class="form-section">
+
+          <div class="section-title">
+            <ion-icon name="card-outline"></ion-icon>
+            <div>
+              <h2>Bank Details</h2>
+              <p>Enter employee bank account information</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Bank Name <span>*</span></label>
+              <ion-input
+                type="text"
+                name="bankName"
+                [(ngModel)]="employee.bankName"
+                placeholder="Enter Bank Name"
+                required
+                maxlength="60"
+                #bankName="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && bankName.errors?.['required']">
+                Bank Name is required.
+              </small>
+              <small class="error" *ngIf="submitted && bankName.errors?.['maxlength']">
+                Maximum 60 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Account Holder Name <span>*</span></label>
+              <ion-input
+                type="text"
+                name="accountHolder"
+                [(ngModel)]="employee.accountHolder"
+                placeholder="Enter Account Holder Name"
+                required
+                maxlength="60"
+                pattern="[A-Za-z ]+"
+                #accountHolder="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && accountHolder.errors?.['required']">
+                Account Holder Name is required.
+              </small>
+              <small class="error" *ngIf="submitted && accountHolder.errors?.['pattern']">
+                Only letters and spaces are allowed.
+              </small>
+              <small class="error" *ngIf="submitted && accountHolder.errors?.['maxlength']">
+                Maximum 60 characters are allowed.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Account Number <span>*</span></label>
+              <ion-input
+                type="text"
+                inputmode="numeric"
+                name="accountNumber"
+                [(ngModel)]="employee.accountNumber"
+                placeholder="Enter Account Number"
+                required
+                pattern="[0-9]{9,18}"
+                maxlength="18"
+                #accountNumber="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && accountNumber.errors?.['required']">
+                Account Number is required.
+              </small>
+              <small class="error" *ngIf="submitted && accountNumber.errors?.['pattern']">
+                Account Number must contain 9 to 18 digits.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>IFSC Code <span>*</span></label>
+              <ion-input
+                type="text"
+                name="ifscCode"
+                [(ngModel)]="employee.ifscCode"
+                placeholder="Enter IFSC Code"
+                required
+                pattern="[A-Za-z]{4}0[A-Za-z0-9]{6}"
+                maxlength="11"
+                #ifscCode="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && ifscCode.errors?.['required']">
+                IFSC Code is required.
+              </small>
+              <small class="error" *ngIf="submitted && ifscCode.errors?.['pattern']">
+                Enter a valid 11-character IFSC code.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>Bank Branch <span>*</span></label>
+              <ion-input
+                type="text"
+                name="bankBranch"
+                [(ngModel)]="employee.bankBranch"
+                placeholder="Enter Bank Branch"
+                required
+                maxlength="60"
+                #bankBranch="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && bankBranch.errors?.['required']">
+                Bank Branch is required.
+              </small>
+              <small class="error" *ngIf="submitted && bankBranch.errors?.['maxlength']">
+                Maximum 60 characters are allowed.
+              </small>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ID Proof Details -->
+        <div class="form-section">
+
+          <div class="section-title">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+            <div>
+              <h2>ID Proof Details</h2>
+              <p>Enter employee identity information</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>Aadhaar Number <span>*</span></label>
+              <ion-input
+                type="text"
+                inputmode="numeric"
+                name="aadhaarNumber"
+                [(ngModel)]="employee.aadhaarNumber"
+                placeholder="Enter 12-digit Aadhaar Number"
+                required
+                pattern="[0-9]{12}"
+                maxlength="12"
+                #aadhaarNumber="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && aadhaarNumber.errors?.['required']">
+                Aadhaar Number is required.
+              </small>
+              <small class="error" *ngIf="submitted && aadhaarNumber.errors?.['pattern']">
+                Aadhaar Number must contain exactly 12 digits.
+              </small>
+            </div>
+
+            <div class="form-group">
+              <label>PAN Number <span>*</span></label>
+              <ion-input
+                type="text"
+                name="panNumber"
+                [(ngModel)]="employee.panNumber"
+                placeholder="Enter PAN Number"
+                required
+                pattern="[A-Za-z]{5}[0-9]{4}[A-Za-z]"
+                maxlength="10"
+                #panNumber="ngModel">
+              </ion-input>
+              <small class="error" *ngIf="submitted && panNumber.errors?.['required']">
+                PAN Number is required.
+              </small>
+              <small class="error" *ngIf="submitted && panNumber.errors?.['pattern']">
+                Enter a valid PAN format (ABCDE1234F).
+              </small>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="form-message success-message" *ngIf="successMessage">
+          <ion-icon name="checkmark-circle-outline"></ion-icon>
+          {{ successMessage }}
+        </div>
+
+        <div class="form-message error-message" *ngIf="errorMessage">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          {{ errorMessage }}
+        </div>
+
+        <!-- Form Buttons -->
+        <div class="form-actions">
+
+        <ion-button
+          type="button"
+          fill="outline"
+          color="medium"
+          [disabled]="isLoading"
+          (click)="resetForm(employeeForm)">
+
+          <ion-icon name="refresh-outline" slot="start"></ion-icon>
+
+          {{ editingIndex !== null ? 'Cancel Edit' : 'Reset' }}
+
+        </ion-button>
+
+        <ion-button
+          type="submit"
+          color="primary"
+          [disabled]="isLoading">
+
+          <ion-icon
+            [name]="editingIndex !== null ? 'save-outline' : 'person-add-outline'"
+            slot="start">
+          </ion-icon>
+
+          {{ editingIndex !== null ? 'Update Employee' : 'Register Employee' }}
+
+        </ion-button>
+
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Registered Employees -->
+    <div class="registered-section">
+
+      <div class="registered-heading">
+        <div>
+          <h2>Registered Employees</h2>
+          <p>View and manage registered employee records</p>
+        </div>
+
+        <span class="total-count">{{ employees.length }} Total</span>
+      </div>
+
+      <!-- Employee Cards -->
+      <div class="employee-grid" *ngIf="employees.length > 0">
+
+        <div
+          class="employee-card"
+          *ngFor="let emp of employees; let i = index; trackBy: trackByEmployeeId">
+
+          <div class="employee-card-header">
+
+            <div class="employee-avatar">
+              {{ getInitials(emp) }}
+            </div>
+
+            <div class="employee-card-name">
+              <h3>{{ emp.firstName }} {{ emp.middleName }} {{ emp.lastName }}</h3>
+              <p>Employee ID: {{ emp.employeeId }}</p>
+            </div>
+
+          </div>
+
+          <div class="employee-card-actions">
+
+            <ion-button
+              fill="clear"
+              color="primary"
+              title="View Employee"
+              aria-label="View employee details"
+              (click)="viewEmployee(emp)">
+              <ion-icon name="eye-outline"></ion-icon>
+            </ion-button>
+
+            <ion-button
+              fill="clear"
+              color="success"
+              title="Edit Employee"
+              aria-label="Edit employee"
+              (click)="editEmployee(i)">
+              <ion-icon name="create-outline"></ion-icon>
+            </ion-button>
+
+            <ion-button
+              fill="clear"
+              color="danger"
+              title="Delete Employee"
+              aria-label="Delete employee"
+              (click)="deleteEmployee(i)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="employees.length === 0">
+        <ion-icon name="people-outline"></ion-icon>
+        <h3>No Employees Registered</h3>
+        <p>Complete the employee registration form to display employee cards here.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Employee Details Modal -->
+  <ion-modal
+    [isOpen]="isViewModalOpen"
+    (didDismiss)="closeViewModal()">
+
+    <ng-template>
+
+      <ion-header>
+        <ion-toolbar color="primary">
+          <ion-title>Employee Details</ion-title>
+
+          <ion-buttons slot="end">
+            <ion-button (click)="closeViewModal()">
+              <ion-icon name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="employee-modal-content">
+
+        <div class="employee-modal-container" *ngIf="selectedEmployee as emp">
+
+          <div class="modal-profile">
+            <div class="employee-avatar modal-avatar">
+              {{ getInitials(emp) }}
+            </div>
+
+            <h2>{{ emp.firstName }} {{ emp.middleName }} {{ emp.lastName }}</h2>
+            <p>Employee ID: {{ emp.employeeId }}</p>
+            <span>{{ emp.employeeCode }}</span>
+          </div>
+
+          <!-- Personal Information -->
+          <div class="modal-detail-section">
+            <h3>
+              <ion-icon name="person-outline"></ion-icon>
+              Personal Information
+            </h3>
+
+            <div class="modal-detail-row">
+              <span>First Name</span>
+              <strong>{{ emp.firstName }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Middle Name</span>
+              <strong>{{ emp.middleName || 'Not provided' }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Last Name</span>
+              <strong>{{ emp.lastName }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Employee Code</span>
+              <strong>{{ emp.employeeCode }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Employee ID</span>
+              <strong>{{ emp.employeeId }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Company ID</span>
+              <strong>{{ emp.companyId }}</strong>
+            </div>
+          </div>
+
+          <!-- Address Information -->
+          <div class="modal-detail-section">
+            <h3>
+              <ion-icon name="location-outline"></ion-icon>
+              Address Information
+            </h3>
+
+            <div class="modal-detail-row">
+              <span>Current Address</span>
+              <strong>{{ emp.currentAddress }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Permanent Address</span>
+              <strong>{{ emp.permanentAddress }}</strong>
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="modal-detail-section">
+            <h3>
+              <ion-icon name="call-outline"></ion-icon>
+              Contact Information
+            </h3>
+
+            <div class="modal-detail-row">
+              <span>Official Email</span>
+              <strong>{{ emp.officialEmail }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Official Mobile</span>
+              <strong>{{ emp.officialMobile }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Personal Email</span>
+              <strong>{{ emp.personalEmail || 'Not provided' }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Personal Mobile</span>
+              <strong>{{ emp.personalMobile || 'Not provided' }}</strong>
+            </div>
+          </div>
+
+          <!-- Bank Details -->
+          <div class="modal-detail-section">
+            <h3>
+              <ion-icon name="card-outline"></ion-icon>
+              Bank Details
+            </h3>
+
+            <div class="modal-detail-row">
+              <span>Bank Name</span>
+              <strong>{{ emp.bankName }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Account Holder</span>
+              <strong>{{ emp.accountHolder }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Account Number</span>
+              <strong>{{ emp.accountNumber }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>IFSC Code</span>
+              <strong>{{ emp.ifscCode }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>Bank Branch</span>
+              <strong>{{ emp.bankBranch }}</strong>
+            </div>
+          </div>
+
+          <!-- ID Proof Details -->
+          <div class="modal-detail-section">
+            <h3>
+              <ion-icon name="shield-checkmark-outline"></ion-icon>
+              ID Proof Details
+            </h3>
+
+            <div class="modal-detail-row">
+              <span>Aadhaar Number</span>
+              <strong>{{ emp.aadhaarNumber }}</strong>
+            </div>
+            <div class="modal-detail-row">
+              <span>PAN Number</span>
+              <strong>{{ emp.panNumber }}</strong>
+            </div>
+          </div>
+
+          <ion-button
+            expand="block"
+            color="primary"
+            (click)="closeViewModal()">
+            Close
+          </ion-button>
+
+        </div>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

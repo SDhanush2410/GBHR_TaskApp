@@ -67,9 +67,12 @@ console.log('Login Request:', loginData);
         if (response.result === 'Success') {
 
           // Store employee information
-          const employeeData = { ...response.data };
+          const employeeData = {
+            ...response.data,
+            LoginUsername: this.email.trim()
+          };
 
-          // Do not retain the password returned by the API
+          // Never store the password
           delete employeeData.Password;
 
           localStorage.setItem(

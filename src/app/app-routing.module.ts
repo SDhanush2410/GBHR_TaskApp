@@ -89,10 +89,16 @@ const routes: Routes = [
        import('./pages/organizational-chart/organizational-chart.module')
         .then( m => m.OrganizationalChartPageModule)
   },
-    {
+  {
+    path: 'forms',
+    loadChildren: () => 
+      import('./pages/forms/forms.module')
+        .then( m => m.FormsPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'login'
-  }
+  },
   
 
 ];

@@ -3,255 +3,432 @@
 
 <ion-content class="profile-content">
 
-  <!-- Page Heading -->
-  <div class="page-heading">
-    <h1>My Profile</h1>
-    <p>View your personal and employment information.</p>
-  </div>
+  <div class="profile-container">
+
+    <!-- PAGE HEADING -->
+
+    <div class="page-heading">
+
+      <div>
+        <h1>Employee Profile</h1>
+        <p>View your personal and employment information</p>
+      </div>
+
+    </div>
 
 
-  <!-- Employee Overview -->
-  <ion-card class="overview-card">
+    <!-- EMPLOYEE OVERVIEW -->
 
-    <ion-card-content>
+    <div class="employee-overview">
 
-      <div class="overview-content">
+      <div class="employee-avatar">
+        {{ employee.FirstName?.charAt(0) || 'E' }}
+      </div>
 
-        <div class="profile-avatar">
-          <ion-icon name="person-outline"></ion-icon>
-        </div>
+      <div class="employee-overview-info">
 
-        <div class="overview-details">
-          <h2>{{ employeeName }}</h2>
+        <h2>{{ employeeName }}</h2>
 
-          <p>
-            Employee ID:
-            <strong>{{ employee.EmployeeID || 'Not provided' }}</strong>
-          </p>
+        <p>
+          Employee ID:
+          {{ employee.EmployeeID || 'Not provided' }}
+        </p>
 
-          <p>
-            Employee Code:
-            <strong>{{ employee.Code || 'Not provided' }}</strong>
-          </p>
-
-          <ion-badge color="success">
-            {{ employee.EmploymentStatus || 'Status not provided' }}
-          </ion-badge>
-        </div>
+        <span>
+          {{ employee.OfficialEmail || 'Not provided' }}
+        </span>
 
       </div>
 
-    </ion-card-content>
-
-  </ion-card>
+    </div>
 
 
-  <!-- Personal Information -->
-  <ion-card class="details-card">
+    <!-- PERSONAL INFORMATION -->
 
-    <ion-card-header>
+    <div class="profile-card">
+
       <div class="card-heading">
-        <ion-icon name="person-circle-outline"></ion-icon>
-        <ion-card-title>Personal Information</ion-card-title>
+        <ion-icon name="person-outline"></ion-icon>
+        <h2>Personal Information</h2>
       </div>
-    </ion-card-header>
 
-    <ion-card-content>
+      <div class="info-grid">
 
-      <div class="details-grid">
-
-        <div class="detail-item">
+        <div class="info-item">
           <label>First Name</label>
           <p>{{ employee.FirstName || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
+        <div class="info-item">
           <label>Middle Name</label>
           <p>{{ employee.MiddleName || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
+        <div class="info-item">
           <label>Last Name</label>
           <p>{{ employee.LastName || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
-          <label>Gender</label>
-          <p>{{ employee.Gender || 'Not provided' }}</p>
+        <div class="info-item">
+          <label>Employee Code</label>
+          <p>{{ employee.Code || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
-          <label>Date of Birth</label>
-          <p>{{ formatDate(employee.ActualDateOfBirth) }}</p>
+        <div class="info-item">
+          <label>Employee ID</label>
+          <p>{{ employee.EmployeeID || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
-          <label>Blood Group</label>
-          <p>{{ employee.BloodGroup || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Marital Status</label>
-          <p>{{ employee.MaritalStatus || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Nationality</label>
-          <p>{{ employee.Nationality || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Father's Name</label>
-          <p>{{ employee.FatherName || 'Not provided' }}</p>
-        </div>
-
-      </div>
-
-    </ion-card-content>
-  </ion-card>
-
-
-  <!-- Employment Information -->
-  <ion-card class="details-card">
-
-    <ion-card-header>
-      <div class="card-heading">
-        <ion-icon name="briefcase-outline"></ion-icon>
-        <ion-card-title>Employment Information</ion-card-title>
-      </div>
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="details-grid">
-
-        <div class="detail-item">
-          <label>Date of Joining</label>
-          <p>{{ formatDate(employee.DateOfJoining) }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Group Company</label>
-          <p>{{ employee.GroupCompany || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Role</label>
-          <p>{{ employee.Role || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Grade ID</label>
-          <p>{{ employee.GradeID || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Notice Period</label>
-          <p>{{ employee.NoticePeriod || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
+        <div class="info-item">
           <label>Company ID</label>
           <p>{{ employee.CompanyID || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
+      </div>
+
+    </div>
+
+
+    <!-- EMPLOYMENT INFORMATION -->
+
+    <div class="profile-card">
+
+      <div class="card-heading">
+        <ion-icon name="briefcase-outline"></ion-icon>
+        <h2>Employment Information</h2>
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
           <label>Branch ID</label>
           <p>{{ employee.BranchID || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
+        <div class="info-item">
           <label>Division ID</label>
           <p>{{ employee.DivisionID || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
+        <div class="info-item">
           <label>Department ID</label>
           <p>{{ employee.DepartmentID || 'Not provided' }}</p>
         </div>
 
-        <div class="detail-item">
-          <label>Designation ID</label>
-          <p>{{ employee.DesignationID || 'Not provided' }}</p>
+        <div class="info-item">
+          <label>Employee Code</label>
+          <p>{{ employee.Code || 'Not provided' }}</p>
         </div>
 
       </div>
 
-    </ion-card-content>
-  </ion-card>
+    </div>
+<!-- ADDRESS INFORMATION -->
 
+    <div class="profile-card">
 
-  <!-- Contact Information -->
-  <ion-card class="details-card">
-
-    <ion-card-header>
-      <div class="card-heading">
-        <ion-icon name="call-outline"></ion-icon>
-        <ion-card-title>Contact Information</ion-card-title>
-      </div>
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="details-grid">
-
-        <div class="detail-item">
-          <label>Official Email</label>
-          <p>{{ employee.OfficialEmail || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Official Mobile</label>
-          <p>{{ employee.OfficialMobile || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Personal Email</label>
-          <p>{{ employee.PersonalEmail || 'Not provided' }}</p>
-        </div>
-
-        <div class="detail-item">
-          <label>Personal Mobile</label>
-          <p>{{ employee.PersonalMobile || 'Not provided' }}</p>
-        </div>
-
-      </div>
-
-    </ion-card-content>
-  </ion-card>
-
-
-  <!-- Address Information -->
-  <ion-card class="details-card">
-
-    <ion-card-header>
       <div class="card-heading">
         <ion-icon name="location-outline"></ion-icon>
-        <ion-card-title>Address Information</ion-card-title>
-      </div>
-    </ion-card-header>
-
-    <ion-card-content>
-
-      <div class="address-section">
-        <label>Current Address</label>
-        <p>{{ currentAddress }}</p>
+        <h2>Address Information</h2>
       </div>
 
-      <div class="address-divider"></div>
+      <div class="address-grid">
 
-      <div class="address-section">
-        <label>Permanent Address</label>
-        <p>{{ permanentAddress }}</p>
+        <div class="address-item">
+
+          <label>Current Address</label>
+
+          <p>{{ currentAddress }}</p>
+
+        </div>
+
+        <div class="address-item">
+
+          <label>Permanent Address</label>
+
+          <p>{{ permanentAddress }}</p>
+
+        </div>
+
       </div>
 
-    </ion-card-content>
-  </ion-card>
+    </div>
 
 
-  <!-- Footer -->
-  <div class="profile-footer">
-    <p>GB HERMES Employee Portal</p>
+    <!-- CONTACT INFORMATION -->
+
+    <div class="profile-card secure-card">
+
+      <div class="secure-card-heading">
+
+        <div class="card-heading">
+          <ion-icon name="call-outline"></ion-icon>
+          <h2>Contact Information</h2>
+        </div>
+
+        <ion-button
+          *ngIf="!contactVisible"
+          fill="outline"
+          class="view-button"
+          (click)="viewSecureDetails('contact')">
+
+          View
+
+        </ion-button>
+
+        <ion-button
+          *ngIf="contactVisible"
+          fill="outline"
+          color="medium"
+          class="view-button"
+          (click)="hideSecureDetails('contact')">
+
+          Hide
+
+        </ion-button>
+
+      </div>
+
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <label>Official Email</label>
+
+          <p>
+            {{ contactVisible
+              ? (employee.OfficialEmail || 'Not provided')
+              : maskEmail(employee.OfficialEmail) }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>Official Mobile</label>
+
+          <p>
+            {{ contactVisible
+              ? (employee.OfficialMobile || 'Not provided')
+              : maskMobile(employee.OfficialMobile) }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>Personal Email</label>
+
+          <p>
+            {{ contactVisible
+              ? (employee.PersonalEmail || 'Not provided')
+              : maskEmail(employee.PersonalEmail) }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>Personal Mobile</label>
+
+          <p>
+            {{ contactVisible
+              ? (employee.PersonalMobile || 'Not provided')
+              : maskMobile(employee.PersonalMobile) }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- CONTACT COUNTDOWN -->
+
+      <div
+        class="secure-timer"
+        *ngIf="contactVisible">
+
+        <ion-icon name="timer-outline"></ion-icon>
+
+        <span>
+          Auto-hide in {{ formatTimer(contactTimer) }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    
+
+    <!-- BANK DETAILS -->
+
+    <div class="profile-card secure-card">
+
+      <div class="secure-card-heading">
+
+        <div class="card-heading">
+          <ion-icon name="card-outline"></ion-icon>
+          <h2>Bank Details</h2>
+        </div>
+
+        <ion-button
+          *ngIf="!bankDetailsVisible"
+          fill="outline"
+          class="view-button"
+          (click)="viewSecureDetails('bank')">
+
+          View
+
+        </ion-button>
+
+        <ion-button
+          *ngIf="bankDetailsVisible"
+          fill="outline"
+          color="medium"
+          class="view-button"
+          (click)="hideSecureDetails('bank')">
+
+          Hide
+
+        </ion-button>
+
+      </div>
+
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <label>Bank Name</label>
+
+          <p>{{ bankDetails.BankName }}</p>
+        </div>
+
+        <div class="info-item">
+          <label>Account Holder</label>
+
+          <p>
+            {{ bankDetailsVisible
+              ? bankDetails.AccountHolder
+              : 'XXXX XXXX' }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>Account Number</label>
+
+          <p>
+            {{ bankDetailsVisible
+              ? bankDetails.AccountNumber
+              : maskAccountNumber(bankDetails.AccountNumber) }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>IFSC Code</label>
+
+          <p>
+            {{ bankDetailsVisible
+              ? bankDetails.IFSCCode
+              : 'XXXX0001234' }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>Branch</label>
+
+          <p>{{ bankDetails.Branch }}</p>
+        </div>
+
+      </div>
+
+
+      <!-- BANK COUNTDOWN -->
+
+      <div
+        class="secure-timer"
+        *ngIf="bankDetailsVisible">
+
+        <ion-icon name="timer-outline"></ion-icon>
+
+        <span>
+          Auto-hide in {{ formatTimer(bankTimer) }}
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- ID PROOF DETAILS -->
+
+    <div class="profile-card secure-card">
+
+      <div class="secure-card-heading">
+
+        <div class="card-heading">
+          <ion-icon name="id-card-outline"></ion-icon>
+          <h2>ID Proof Details</h2>
+        </div>
+
+        <ion-button
+          *ngIf="!idProofVisible"
+          fill="outline"
+          class="view-button"
+          (click)="viewSecureDetails('id')">
+
+          View
+
+        </ion-button>
+
+        <ion-button
+          *ngIf="idProofVisible"
+          fill="outline"
+          color="medium"
+          class="view-button"
+          (click)="hideSecureDetails('id')">
+
+          Hide
+
+        </ion-button>
+
+      </div>
+
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <label>Aadhaar Number</label>
+
+          <p>
+            {{ idProofVisible
+              ? idProofDetails.AadhaarNumber
+              : maskAadhaar(idProofDetails.AadhaarNumber) }}
+          </p>
+        </div>
+
+        <div class="info-item">
+          <label>PAN Number</label>
+
+          <p>
+            {{ idProofVisible
+              ? idProofDetails.PANNumber
+              : maskPAN(idProofDetails.PANNumber) }}
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ID PROOF COUNTDOWN -->
+
+      <div
+        class="secure-timer"
+        *ngIf="idProofVisible">
+
+        <ion-icon name="timer-outline"></ion-icon>
+
+        <span>
+          Auto-hide in {{ formatTimer(idTimer) }}
+        </span>
+
+      </div>
+
+    </div>
+
   </div>
 
 </ion-content>
